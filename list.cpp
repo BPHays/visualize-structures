@@ -73,7 +73,7 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 		n->draw(cr);
 		n->printed = true;
 		if (n->next != NULL) {
-		draw_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2, n->next->x - 10, n->next->y + ListNode::field_h);
+			draw_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2, n->next->x - 10, n->next->y + ListNode::field_h);
 		} else  {
 			draw_null_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2);
 		}
@@ -87,7 +87,12 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 		if (!nodes[i]->printed) {
 			nodes[i]->y = yTmp;
 			nodes[i]->x = xTmp;
-			nodes[i]->draw(cr);
+			nodes[i]->draw(cr);		
+			if (nodes[i]->next != NULL) {
+				draw_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2, nodes[i]->next->x - 10, nodes[i]->next->y + ListNode::field_h);
+			} else  {
+				draw_null_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2);
+			}
 			xTmp = 2 * ListNode::padding;
 		}
 	}
@@ -95,9 +100,13 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 }
 
 void List::draw_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y) {
+
 	cr->set_line_width(2.0);
+	// arrow body
 	cr->move_to(start_x, start_y);
 	cr->line_to(end_x, end_y);
+	// arrow head
+
 	cr->stroke();
 }
 
@@ -137,9 +146,8 @@ ListNode::ListNode(List * list) {
 	list->newNode(this);
 }
 
-ListNode::ListNode(List * list, int x, int y) {
-	this->x = x;
-	this->y = y;
+ListNode::ListNode(List * list, int data) {
+	this->data = data;
 	this->next = NULL;
 	this->printed = false;
 	this->list = list;
@@ -158,10 +166,13 @@ void ListNode::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 }
 
 void ListNode::draw_text(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y) {
+	char * str = new char[10];
+	sprintf(str, "%d", data);
+
 	Pango::FontDescription font;
 	font.set_family("Monospace");
 	font.set_weight(Pango::WEIGHT_BOLD);
-	Glib::RefPtr<Pango::Layout> layout = create_pango_layout("test");
+	Glib::RefPtr<Pango::Layout> layout = create_pango_layout(str);
 	layout->set_font_description(font);
 	int text_w, text_h;
 	layout->get_pixel_size(text_w, text_h);

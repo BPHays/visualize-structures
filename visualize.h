@@ -2,18 +2,20 @@
 #define VISUALIZE_H
 
 #include <gtkmm/drawingarea.h>
-
-
+#include "list.h"
 
 class Visualize : public Gtk::DrawingArea {
 	public:
 		Visualize();
 		~Visualize();
+		void run();
 	
 	protected:
 		virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void update();
 };
 
+/*
 class ListNode;
 
 class List : Gtk::Widget{
@@ -61,5 +63,6 @@ class ListNode : public Gtk::Widget {
 		int x;
 		int y;
 };
+*/
 
 #endif

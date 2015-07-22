@@ -3,13 +3,14 @@
 #define LIST_H
 
 #include <gtkmm/drawingarea.h>
+#include "structure.h"
 
 class ListNode;
 
 /*
  * A list which automatically tracks created nodes
  */
-class List : Gtk::Widget{
+class List : Gtk::Widget, public Structure {
 	public:
 		List();
 		~List();
@@ -37,6 +38,7 @@ class ListNode : public Gtk::Widget {
 	public:
 		ListNode();
 		ListNode(List * list);
+		ListNode(List * list, int data);
 		ListNode(List * list, int x, int y);
 		~ListNode();
 		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
@@ -45,6 +47,7 @@ class ListNode : public Gtk::Widget {
 
 	public:
 		ListNode * next;
+		int data;
 	private:
 		static const int field_w;
 		static const int field_h;
