@@ -12,8 +12,9 @@ class DList : public List {
 	public:
 		DList();
 		~DList();
-		//virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
 	private:
+		virtual void arrange_nodes();
 
 	public:
 		ListNode * tail;

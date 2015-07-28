@@ -19,8 +19,12 @@ class List : Gtk::Widget, public Structure {
 		void newNode(ListNode * node);
 		void removeFromArray(ListNode * node);
 	private:
+		virtual void arrange_nodes();
 		virtual void draw_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y);
 		virtual void draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y);
+		virtual void draw_connected(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void draw_labels(const Cairo::RefPtr<Cairo::Context> & cr);
 
 	public:
 		ListNode * head;
