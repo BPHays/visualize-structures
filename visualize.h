@@ -3,6 +3,8 @@
 
 #include <gtkmm/drawingarea.h>
 #include "list.h"
+#include "dlist.h"
+#include "array.h"
 
 class Visualize : public Gtk::DrawingArea {
 	public:

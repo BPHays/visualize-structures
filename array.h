@@ -2,8 +2,9 @@
 #define ARRAY_H
 
 #include <gtkmm/drawingarea.h>
+#include "structure.h"
 
-class Array : Gtk:Widget {
+class Array : Gtk::Widget, public Structure {
 	public:
 		Array();
 		Array(int size);
@@ -21,6 +22,6 @@ class Array : Gtk:Widget {
 		static const int field_w;
 		static const int field_h;
 		static const int init_size;
-}
+};
 
 #endif // ARRAY_H

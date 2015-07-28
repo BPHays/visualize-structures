@@ -48,6 +48,8 @@ class ListNode : public Gtk::Widget {
 	public:
 		ListNode * next;
 		int data;
+	protected:
+		int numFields;
 	private:
 		static const int field_w;
 		static const int field_h;

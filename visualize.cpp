@@ -5,7 +5,7 @@
 #include <iostream>
 
 //List * list = new List();
-Structure * s;
+Structure * s = NULL;
 
 Visualize::Visualize() {
 }
@@ -14,6 +14,18 @@ Visualize::~Visualize() {
 }
 
 void Visualize::run() {
+/*
+	s = new Array();
+	Array * a = dynamic_cast <Array *> (s);
+	update();
+	a->array[a->n++] = 5;
+	update();
+	a->array[a->n++] = 7;
+	update();
+	a->array[a->n++] = 12;
+	update();
+	*/
+
 	s = new List();
 	List * list = dynamic_cast <List *> (s);
 	ListNode * node = new ListNode(list, 0);
@@ -21,6 +33,7 @@ void Visualize::run() {
 	ListNode * node2 = new ListNode(list, 2);
 	ListNode * node3 = new ListNode(list, 3);
 	ListNode * node4 = new ListNode(list, 4);
+	DListNode * dnode = new DListNode(list, 9);
 
 	list->head = node;
 	node->next = node1;
@@ -56,7 +69,6 @@ void Visualize::run() {
 	delete node1;
 
 	update();
-
 }
 
 void Visualize::update() {
@@ -69,5 +81,7 @@ bool Visualize::on_draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	Gtk::Allocation allocation = get_allocation();
 	const int width = allocation.get_width();
 	const int height = allocation.get_height();
-	s->draw(cr);
+	if (s != NULL) {
+		s->draw(cr);
+	}
 }

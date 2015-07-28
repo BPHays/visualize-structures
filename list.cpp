@@ -1,6 +1,8 @@
 
 #include "visualize.h"
 #include <cairomm/context.h>
+#include <iostream>
+
 
 const int List::nodes_size = 100;
 
@@ -101,11 +103,20 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 
 void List::draw_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y) {
 
+	double m = (end_y - start_y) / (double ) (end_x - start_x);	
+	double theta = atan(m);
+	int hyp = 5;
+	double angle = 5.0 * 3.14159 / 6.0;
 	cr->set_line_width(2.0);
 	// arrow body
 	cr->move_to(start_x, start_y);
 	cr->line_to(end_x, end_y);
 	// arrow head
+	cr->line_to(end_x + hyp * cos(theta + angle), end_y + hyp * sin(theta + angle));
+	cr->line_to(end_x + hyp * cos(theta - angle), end_y + hyp * sin(theta - angle));
+	cr->line_to(end_x, end_y);
+
+	//std::cout << "m=" << m << ", theta=" << theta << ", "
 
 	cr->stroke();
 }
@@ -152,6 +163,7 @@ ListNode::ListNode(List * list, int data) {
 	this->printed = false;
 	this->list = list;
 	list->newNode(this);
+	this->numFields = 2;
 }
 
 ListNode::~ListNode() {
@@ -181,13 +193,13 @@ void ListNode::draw_text(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y)
 }
 
 void ListNode::draw_node(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y) {
-	cr->rectangle(x, y, field_w, field_h * 2);
+	cr->rectangle(x, y, field_w, field_h * numFields);
 	cr->fill();
 
 	cr->set_source_rgb(0.0, 0.0, 0.0);
 	cr->set_line_width(2.0);
-	cr->rectangle(x, y, field_w, field_h);
-	cr->stroke();
-	cr->rectangle(x, y + field_h, field_w, field_h);
-	cr->stroke();
+	for (int i = 0; i < numFields; i++) {
+		cr->rectangle(x, y + (i * field_h), field_w, field_h);
+		cr->stroke();
+	}
 }
