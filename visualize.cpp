@@ -26,6 +26,7 @@ void Visualize::run() {
 	update();
 	*/
 
+	/*
 	s = new List();
 	List * list = dynamic_cast <List *> (s);
 	ListNode * node = new ListNode(list, 0);
@@ -47,6 +48,51 @@ void Visualize::run() {
 	update();
 
 	ListNode * node5 = new ListNode(list, 5);
+
+	update();
+
+	node5->next = node2;
+
+	update();
+
+	node1->next = node5;
+
+	update();
+
+	node->next = node5;
+
+	update();
+
+	node1->next = NULL;
+
+	update();
+
+	delete node1;
+
+	update();
+	*/	
+
+	s = new DList();
+	DList * list = dynamic_cast <DList *> (s);
+	DListNode * node = new DListNode(list, 0);
+	DListNode * node1 = new DListNode(list, 1);
+	DListNode * node2 = new DListNode(list, 2);
+	DListNode * node3 = new DListNode(list, 3);
+	DListNode * node4 = new DListNode(list, 4);
+	DListNode * dnode = new DListNode(list, 9);
+
+	list->head = node;
+	node->next = node1;
+	node1->next = node2;
+	node2->next = node3;
+
+	update();
+
+	delete node4;
+
+	update();
+
+	DListNode * node5 = new DListNode(list, 5);
 
 	update();
 

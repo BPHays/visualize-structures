@@ -2,30 +2,31 @@
 #ifndef DLIST_H
 #define DLIST_H
 
+#include <gtkmm/drawingarea.h>
 #include "list.h"
 
-/*
-	class DListNode;
+class DListNode;
 
-	class DList : public List {
-		public:
-			DList();
-			~DList();
-			virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
-		private:
+class DList : public List {
+	friend class List;
+	public:
+		DList();
+		~DList();
+		//virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
+	private:
 
-		public:
-			ListNode * tail;
-	};
-	*/
+	public:
+		ListNode * tail;
+};
 
-	class DListNode : public ListNode {
-		public :
-			DListNode(List * dlist, int data);
-			~DListNode();
+class DListNode : public ListNode {
+friend class DList;
+	public :
+		DListNode(List * dlist, int data);
+		~DListNode();
 
-		public:
-			ListNode * prev;
-	};
+	public:
+		ListNode * prev;
+};
 
 #endif // DLIST_H

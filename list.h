@@ -11,6 +11,7 @@ class ListNode;
  * A list which automatically tracks created nodes
  */
 class List : Gtk::Widget, public Structure {
+	friend class DList;
 	public:
 		List();
 		~List();
