@@ -131,7 +131,7 @@ void List::draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * node
 		if (node->next != NULL) {
 			draw_arrow_helper(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h);
 		} else  {
-			draw_null_arrow(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2);
+			draw_null_arrow(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
 		}
 
 }
@@ -161,25 +161,26 @@ void List::draw_arrow_helper(const Cairo::RefPtr<Cairo::Context> & cr, int start
 	cr->stroke();
 }
 
-void List::draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y) {
+void List::draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, bool right) {
+	int dir = right ? 1 : -1;
 	// draw the body of the arrow
 	cr->set_line_width(2.0);
 	cr->move_to(start_x, start_y);
-	cr->line_to(start_x + 35, start_y);
-	cr->line_to(start_x + 35, start_y + 10);
+	cr->line_to(start_x + (35 * dir), start_y);
+	cr->line_to(start_x + (35 * dir), start_y + 10);
 	cr->stroke();
 
 	// draw the horizontal lines
-	cr->move_to(start_x + 25, start_y + 10);
-	cr->line_to(start_x + 45, start_y + 10);
+	cr->move_to(start_x + (25 * dir), start_y + 10);
+	cr->line_to(start_x + (45 * dir), start_y + 10);
 	cr->stroke();
 
-	cr->move_to(start_x + 30, start_y + 15);
-	cr->line_to(start_x + 40, start_y + 15);
+	cr->move_to(start_x + (30 * dir), start_y + 15);
+	cr->line_to(start_x + (40 * dir), start_y + 15);
 	cr->stroke();
 
-	cr->move_to(start_x + 34, start_y + 20);
-	cr->line_to(start_x + 36, start_y + 20);
+	cr->move_to(start_x + (34 * dir), start_y + 20);
+	cr->line_to(start_x + (36 * dir), start_y + 20);
 	cr->stroke();
 }
 
@@ -198,7 +199,7 @@ void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
 	if (head != NULL) {
 		draw_arrow_helper(cr, list_x + text_w + 10, list_y + text_h / 2, head->x - 10, head->y + ListNode::field_h);
 	} else {
-		draw_null_arrow(cr, list_x + text_w + 10, list_y + text_h / 2);
+		draw_null_arrow(cr, list_x + text_w + 10, list_y + text_h / 2, true);
 	}
 }
 
@@ -237,7 +238,7 @@ void List::draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr) {
 				draw_null_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2);
 			}
 			*/
-			xTmp = 2 * ListNode::padding;
+			xTmp += 2 * ListNode::padding;
 		}
 	}
 }

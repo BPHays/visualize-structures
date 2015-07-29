@@ -77,8 +77,6 @@ void Visualize::run() {
 	DListNode * node1 = new DListNode(list, 1);
 	DListNode * node2 = new DListNode(list, 2);
 	DListNode * node3 = new DListNode(list, 3);
-	DListNode * node4 = new DListNode(list, 4);
-	DListNode * dnode = new DListNode(list, 9);
 
 	update();
 
@@ -87,22 +85,22 @@ void Visualize::run() {
 	update();
 
 	node->next = node1;
-
-	update();
-
-	node1->next = node2;
-
-	update();
-
 	node1->prev = node;
 
 	update();
 
-	node2->next = node3;
+	node1->next = node2;
+	node2->prev = node1;
 
 	update();
 
-	node2->prev = node1;
+	node2->next = node3;
+	node3->prev = node2;
+
+	update();
+
+	node1->next = node3;
+	node3->prev = node1;
 
 	update();
 
