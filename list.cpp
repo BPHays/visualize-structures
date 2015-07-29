@@ -126,14 +126,27 @@ void List::arrange_nodes() {
 	}
 }
 
-// TODO add chagne to draw_arrow_helper and have draw arrow draw all of the arrows
-// for a given node be they null or not
-void List::draw_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y) {
+// draw the arrows from a specific node
+void List::draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * node) {
+		if (node->next != NULL) {
+			draw_arrow_helper(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h);
+		} else  {
+			draw_null_arrow(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2);
+		}
+
+}
+
+void List::draw_arrow_helper(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y) {
 
 	double m = (end_y - start_y) / (double ) (end_x - start_x);	
 	double theta = atan(m);
 	int hyp = 5;
-	double angle = 5.0 * 3.14159 / 6.0;
+	double angle;
+	if (end_x > start_x) {
+		angle = 5.0 * 3.14159 / 6.0;
+	} else {
+		angle = 3.14159 / 6.0;
+	}
 	cr->set_line_width(2.0);
 	// arrow body
 	cr->move_to(start_x, start_y);
@@ -183,7 +196,7 @@ void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
 	cr->move_to(list_x, list_y);
 	layout->show_in_cairo_context(cr);
 	if (head != NULL) {
-		draw_arrow(cr, list_x + text_w + 10, list_y + text_h / 2, head->x - 10, head->y + ListNode::field_h);
+		draw_arrow_helper(cr, list_x + text_w + 10, list_y + text_h / 2, head->x - 10, head->y + ListNode::field_h);
 	} else {
 		draw_null_arrow(cr, list_x + text_w + 10, list_y + text_h / 2);
 	}
@@ -191,33 +204,39 @@ void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
 
 // draw nodes which are fully attached to the list
 void List::draw_connected(const Cairo::RefPtr<Cairo::Context> & cr) {
-		n = head;
+		ListNode * n = head;
 	while (n != NULL) {
 		n->draw(cr);
 		n->printed = true;
+		draw_arrows(cr, n);
+		/*
 		if (n->next != NULL) {
 			draw_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2, n->next->x - 10, n->next->y + ListNode::field_h);
 		} else  {
 			draw_null_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2);
 		}
+		*/
 		n = n->next;
 	}
 }
 
 // draw nodes which may point to the list but are no fully attached to it
 void List::draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr) {
-	xTmp = out_x;
-	yTmp = out_y;
+	int xTmp = out_x;
+	int yTmp = out_y;
 	for (int i = 0; i < currentNodes; i++) {
 		if (!nodes[i]->printed) {
 			nodes[i]->y = yTmp;
 			nodes[i]->x = xTmp;
 			nodes[i]->draw(cr);		
+			draw_arrows(cr, nodes[i]);
+			/*
 			if (nodes[i]->next != NULL) {
 				draw_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2, nodes[i]->next->x - 10, nodes[i]->next->y + ListNode::field_h);
 			} else  {
 				draw_null_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2);
 			}
+			*/
 			xTmp = 2 * ListNode::padding;
 		}
 	}
