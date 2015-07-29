@@ -18,7 +18,6 @@ void DList::arrange_nodes() {
 	int yTmp = list_y;
 	while (n != NULL) {
 		// check that if the node has neighbors that they point to n correctly
-		//if ((!n->next || !n->next->prev || n->next->prev == n) && (!n->prev || !n->prev->next || n->prev->next == n)) {
 		if ((!n->next || !n->next->prev || n->next->prev == n) && ((!n->prev && n == dynamic_cast <DListNode *> (head)) || (n->prev && (!n->prev->next || n->prev->next == n)))) {
 			xTmp += ListNode::padding;
 			n->x = xTmp;
@@ -26,6 +25,8 @@ void DList::arrange_nodes() {
 			n = n->next;
 		}
 	}
+
+	tail_x = xTmp + ListNode::padding;
 }
 
 void DList::draw_connected(const Cairo::RefPtr<Cairo::Context> & cr) {
@@ -38,21 +39,6 @@ void DList::draw_connected(const Cairo::RefPtr<Cairo::Context> & cr) {
 			n->printed = true;
 
 			draw_arrows(cr, n);
-			/*
-			// add the previous arrow
-			if (n->prev != NULL) {
-				draw_arow(cr, n->x + ARROW_OFSET, n->y (5 * ListNode::field_h) / 2, n->prev->x + ARROW_OFSET, n->prev->y + ListNode::field_h)
-			} else {
-				draw_null_arrow(cr, n->x + ARROW_OFSET, n->y (5 * ListNode::field_h) / 2);
-			}
-
-			// add the next arrow
-			if (n->next != NULL) {
-				draw_arow(cr, n->x + ListNode::field_w - ARROW_OFSET, n->y (3 * ListNode::field_h) / 2, n->next->x + ListNode::field_w - ARROW_OFSET, n->next->y + ListNode::field_h)
-			} else {
-				draw_null_arrow(cr, n->x + ListNode::field_w - ARROW_OFSET, n->y (3 * ListNode::field_h) / 2);
-			}
-			*/
 			n = n->next;
 		}
 	}
@@ -80,8 +66,8 @@ DListNode::DListNode(List * dlist, int data) : ListNode(dlist, data) {
 }
 
 void DList::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
-	draw_label_helper(cr, head, "head", 50, 50);
-	draw_label_helper(cr, tail, "tail", 50, 10);
+	draw_label_helper(cr, head, "head", list_x, list_y, RIGHT);
+	draw_label_helper(cr, tail, "tail", tail_x, list_y, LEFT);
 }
 
 DListNode::~DListNode() {

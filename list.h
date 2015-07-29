@@ -12,6 +12,15 @@ class ListNode;
  */
 class List : Gtk::Widget, public Structure {
 	friend class DList;
+
+	public:
+		enum LabelArrowPos {
+			TOP,
+			BOTTOM,
+			RIGHT,
+			LEFT
+		};
+
 	public:
 		List();
 		~List();
@@ -26,7 +35,7 @@ class List : Gtk::Widget, public Structure {
 		virtual void draw_connected(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void draw_labels(const Cairo::RefPtr<Cairo::Context> & cr);
-		virtual void draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y);
+		virtual void draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y, LabelArrowPos labelPos);
 
 	public:
 		ListNode * head;

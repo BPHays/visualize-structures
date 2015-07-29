@@ -88,16 +88,19 @@ void Visualize::run() {
 
 	node->next = node1;
 	node1->prev = node;
+	list->tail = node1;
 
 	update();
 
 	node1->next = node2;
 	node2->prev = node1;
+	list->tail = node2;
 
 	update();
 
 	node2->next = node3;
 	node3->prev = node2;
+	list->tail = node3;
 
 	update();
 

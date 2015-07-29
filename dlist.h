@@ -21,6 +21,9 @@ class DList : public List {
 
 	public:
 		ListNode * tail;
+	private:
+		int tail_x;
+		int tail_y;
 };
 
 class DListNode : public ListNode {

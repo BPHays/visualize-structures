@@ -38,17 +38,6 @@ void List::removeFromArray(ListNode * node) {
 void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	// update the positions of the list
 	arrange_nodes();
-	/*
-	ListNode * n = head;
-	int xTmp = list_x;
-	int yTmp = list_y;
-	while (n != NULL) {
-		xTmp += ListNode::padding;
-		n->x = xTmp;
-		n->y = yTmp;
-		n = n->next;
-	}
-	*/
 
 	// mark the array as unprinted
 	for (int i = 0; i < currentNodes; i++) {
@@ -57,59 +46,12 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 
 	// print the head of the list
 	draw_labels(cr);
-	/*
-	cr->set_source_rgb(0.0, 0.0, 0.0);
-	Pango::FontDescription font;
-	font.set_family("Monospace");
-	font.set_weight(Pango::WEIGHT_BOLD);
-	Glib::RefPtr<Pango::Layout> layout = create_pango_layout("head");
-	layout->set_font_description(font);
-	int text_w, text_h;
-	layout->get_pixel_size(text_w, text_h);
-	cr->move_to(list_x, list_y);
-	layout->show_in_cairo_context(cr);
-	if (head != NULL) {
-		draw_arrow(cr, list_x + text_w + 10, list_y + text_h / 2, head->x - 10, head->y + ListNode::field_h);
-	} else {
-		draw_null_arrow(cr, list_x + text_w + 10, list_y + text_h / 2);
-	}
-	*/
 
 	//  print the nodes in the list
 	draw_connected(cr);
-	/*
-	n = head;
-	while (n != NULL) {
-		n->draw(cr);
-		n->printed = true;
-		if (n->next != NULL) {
-			draw_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2, n->next->x - 10, n->next->y + ListNode::field_h);
-		} else  {
-			draw_null_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2);
-		}
-		n = n->next;
-	}
-	*/
 
 	// print nodes disconnected from the list
 	draw_disconnected(cr);
-	/*
-	xTmp = out_x;
-	yTmp = out_y;
-	for (int i = 0; i < currentNodes; i++) {
-		if (!nodes[i]->printed) {
-			nodes[i]->y = yTmp;
-			nodes[i]->x = xTmp;
-			nodes[i]->draw(cr);		
-			if (nodes[i]->next != NULL) {
-				draw_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2, nodes[i]->next->x - 10, nodes[i]->next->y + ListNode::field_h);
-			} else  {
-				draw_null_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2);
-			}
-			xTmp = 2 * ListNode::padding;
-		}
-	}
-	*/
 }
 
 // place the nodes that are part of the list in a single 
@@ -156,8 +98,6 @@ void List::draw_arrow_helper(const Cairo::RefPtr<Cairo::Context> & cr, int start
 	cr->line_to(end_x + hyp * cos(theta - angle), end_y + hyp * sin(theta - angle));
 	cr->line_to(end_x, end_y);
 
-	//std::cout << "m=" << m << ", theta=" << theta << ", "
-
 	cr->stroke();
 }
 
@@ -186,27 +126,10 @@ void List::draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x
 
 // draw labels and connect them to the structure with arrows
 void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
-	draw_label_helper(cr, head, "head", list_x, list_y);
-	/*
-	cr->set_source_rgb(0.0, 0.0, 0.0);
-	Pango::FontDescription font;
-	font.set_family("Monospace");
-	font.set_weight(Pango::WEIGHT_BOLD);
-	Glib::RefPtr<Pango::Layout> layout = create_pango_layout("head");
-	layout->set_font_description(font);
-	int text_w, text_h;
-	layout->get_pixel_size(text_w, text_h);
-	cr->move_to(list_x, list_y);
-	layout->show_in_cairo_context(cr);
-	if (head != NULL) {
-		draw_arrow_helper(cr, list_x + text_w + 10, list_y + text_h / 2, head->x - 10, head->y + ListNode::field_h);
-	} else {
-		draw_null_arrow(cr, list_x + text_w + 10, list_y + text_h / 2, true);
-	}
-	*/
+	draw_label_helper(cr, head, "head", list_x, list_y, RIGHT);
 }
 
-void List::draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y) {
+void List::draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y, LabelArrowPos arrowPos) {
 	cr->set_source_rgb(0.0, 0.0, 0.0);
 	Pango::FontDescription font;
 	font.set_family("Monospace");
@@ -218,9 +141,17 @@ void List::draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode 
 	cr->move_to(x, y);
 	layout->show_in_cairo_context(cr);
 	if (label != NULL) {
+		if (arrowPos == RIGHT) {
 		draw_arrow_helper(cr, x + text_w + 10, y + text_h / 2, label->x - 10, label->y + ListNode::field_h);
+		} else {
+		draw_arrow_helper(cr, x - 10, y + text_h / 2, label->x + ListNode::field_w + 10, label->y + ListNode::field_h);
+		}
 	} else {
-		draw_null_arrow(cr, x + text_w + 10, y + text_h / 2, true);
+		if (arrowPos == RIGHT) {
+			draw_null_arrow(cr, x + text_w + 10, y + text_h / 2, true);
+		} else {
+			draw_null_arrow(cr, x - 10, y + text_h / 2, false);
+		}
 	}
 }
 
@@ -231,13 +162,6 @@ void List::draw_connected(const Cairo::RefPtr<Cairo::Context> & cr) {
 		n->draw(cr);
 		n->printed = true;
 		draw_arrows(cr, n);
-		/*
-		if (n->next != NULL) {
-			draw_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2, n->next->x - 10, n->next->y + ListNode::field_h);
-		} else  {
-			draw_null_arrow(cr, n->x + ListNode::field_w - 10, n->y + (3 * ListNode::field_h) / 2);
-		}
-		*/
 		n = n->next;
 	}
 }
@@ -252,13 +176,6 @@ void List::draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr) {
 			nodes[i]->x = xTmp;
 			nodes[i]->draw(cr);		
 			draw_arrows(cr, nodes[i]);
-			/*
-			if (nodes[i]->next != NULL) {
-				draw_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2, nodes[i]->next->x - 10, nodes[i]->next->y + ListNode::field_h);
-			} else  {
-				draw_null_arrow(cr, nodes[i]->x + ListNode::field_w - 10, nodes[i]->y + (3 * ListNode::field_h) / 2);
-			}
-			*/
 			xTmp += 2 * ListNode::padding;
 		}
 	}
