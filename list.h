@@ -26,6 +26,7 @@ class List : Gtk::Widget, public Structure {
 		virtual void draw_connected(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void draw_labels(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y);
 
 	public:
 		ListNode * head;

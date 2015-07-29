@@ -79,5 +79,10 @@ DListNode::DListNode(List * dlist, int data) : ListNode(dlist, data) {
 	this->numFields = 3;
 }
 
+void DList::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
+	draw_label_helper(cr, head, "head", 50, 50);
+	draw_label_helper(cr, tail, "tail", 50, 10);
+}
+
 DListNode::~DListNode() {
 }

@@ -74,15 +74,17 @@ void Visualize::run() {
 	s = new DList();
 	DList * list = dynamic_cast <DList *> (s);
 	DListNode * node = new DListNode(list, 0);
+
+	list->head = node;
+	update();
+	list->tail = node;
+
+	update();	
+	
 	DListNode * node1 = new DListNode(list, 1);
 	DListNode * node2 = new DListNode(list, 2);
 	DListNode * node3 = new DListNode(list, 3);
 
-	update();
-
-	list->head = node;
-
-	update();
 
 	node->next = node1;
 	node1->prev = node;

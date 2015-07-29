@@ -186,6 +186,8 @@ void List::draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x
 
 // draw labels and connect them to the structure with arrows
 void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
+	draw_label_helper(cr, head, "head", list_x, list_y);
+	/*
 	cr->set_source_rgb(0.0, 0.0, 0.0);
 	Pango::FontDescription font;
 	font.set_family("Monospace");
@@ -200,6 +202,25 @@ void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
 		draw_arrow_helper(cr, list_x + text_w + 10, list_y + text_h / 2, head->x - 10, head->y + ListNode::field_h);
 	} else {
 		draw_null_arrow(cr, list_x + text_w + 10, list_y + text_h / 2, true);
+	}
+	*/
+}
+
+void List::draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y) {
+	cr->set_source_rgb(0.0, 0.0, 0.0);
+	Pango::FontDescription font;
+	font.set_family("Monospace");
+	font.set_weight(Pango::WEIGHT_BOLD);
+	Glib::RefPtr<Pango::Layout> layout = create_pango_layout(text);
+	layout->set_font_description(font);
+	int text_w, text_h;
+	layout->get_pixel_size(text_w, text_h);
+	cr->move_to(x, y);
+	layout->show_in_cairo_context(cr);
+	if (label != NULL) {
+		draw_arrow_helper(cr, x + text_w + 10, y + text_h / 2, label->x - 10, label->y + ListNode::field_h);
+	} else {
+		draw_null_arrow(cr, x + text_w + 10, y + text_h / 2, true);
 	}
 }
 

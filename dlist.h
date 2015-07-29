@@ -17,6 +17,7 @@ class DList : public List {
 		virtual void arrange_nodes();
 		virtual void draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, DListNode * node);
 		virtual void draw_connected(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void draw_labels(const Cairo::RefPtr<Cairo::Context> & cr);
 
 	public:
 		ListNode * tail;
