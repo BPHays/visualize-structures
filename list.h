@@ -64,15 +64,15 @@ class ListNode : public Gtk::Widget {
 	public:
 		ListNode * next;
 		int data;
+		bool printed;
+		int x;
+		int y;
+		static const int padding;
 	protected:
 		int numFields;
 		static const int field_w;
 		static const int field_h;
-		static const int padding;
 		List * list;
-		bool printed;
-		int x;
-		int y;
 };
 
 #endif

@@ -44,11 +44,26 @@ void DList::draw_connected(const Cairo::RefPtr<Cairo::Context> & cr) {
 	}
 }
 
+void DList::draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr) {
+	int xTmp = out_x;
+	int yTmp = out_y;
+	for (int i = 0; i < currentNodes; i++) {
+		if(!nodes[i]->printed) {
+			nodes[i]->y = yTmp;
+			nodes[i]->x = xTmp;
+			nodes[i]->draw(cr);
+			draw_arrows(cr, dynamic_cast <DListNode *> (nodes[i]));
+			xTmp += 2 * ListNode::padding;
+		}
+	}
+}
+
 void DList::draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, DListNode * node) {
 	// add the previous arrow
 	if (node->prev != NULL) {
 		draw_arrow_helper(cr, node->x + ARROW_OFFSET, node->y + (5 * ListNode::field_h) / 2, node->prev->x + ARROW_OFFSET + ListNode::field_w, node->prev->y + (5 * ListNode::field_h) / 2);
 	} else {
+		std::cout << "test" << std::endl;
 		draw_null_arrow(cr, node->x + ARROW_OFFSET, node->y + (5 * ListNode::field_h) / 2, false);
 	}
 

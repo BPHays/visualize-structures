@@ -70,11 +70,12 @@ void List::arrange_nodes() {
 
 // draw the arrows from a specific node
 void List::draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * node) {
-		if (node->next != NULL) {
-			draw_arrow_helper(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h);
-		} else  {
-			draw_null_arrow(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
-		}
+	std::cout << "other test" << std::endl;
+	if (node->next != NULL) {
+		draw_arrow_helper(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h);
+	} else  {
+		draw_null_arrow(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
+	}
 
 }
 
