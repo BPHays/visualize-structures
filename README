@@ -1,0 +1,33 @@
+
+structure
+	array
+		stack
+		 -push()
+		 -pop()
+		queue
+		 -enque()
+		 -deque()
+		heap
+		 -insert()
+		 -remove(min/max)()
+		hash table
+	graph
+		list
+			sllist
+			dllist
+			circular list
+		tree
+
+node
+ -draw()
+ -printed
+ -x
+ -y
+ -cr
+	vertex
+	 -adjacency list
+	treeNode
+	 -children
+	 -parent
+	listNode
+	 -next/prev

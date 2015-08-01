@@ -19,11 +19,11 @@ List::List() {
 List::~List() {
 }
 
-void List::newNode(ListNode * node) {
+void List::startTrackNode(ListNode * node) {
 	nodes[currentNodes++] = node;
 }
 
-void List::removeFromArray(ListNode * node) {
+void List::stopTrackNode(ListNode * node) {
 	for (int i = 0; i < currentNodes; i++) {
 		if (nodes[i] == node) {
 			for (int j = i; j < currentNodes - 1; j++) {
@@ -201,22 +201,23 @@ ListNode::ListNode(List * list, int data) {
 	this->next = NULL;
 	this->printed = false;
 	this->list = list;
-	list->newNode(this);
+	list->startTrackNode(this);
 	this->numFields = 2;
 }
 
 ListNode::~ListNode() {
-	list->removeFromArray(this);
+	list->stopTrackNode(this);
 }
 
 void ListNode::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
+	this->cr = cr;
 	cr->set_source_rgb(1.0, 1.0, 1.0);
-	draw_node(cr, x, y);
+	draw_node();
 	cr->set_source_rgb(0.0, 0.0, 0.0);
-	draw_text(cr, x, y);
+	draw_text();
 }
 
-void ListNode::draw_text(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y) {
+void ListNode::draw_text() {
 	char * str = new char[10];
 	sprintf(str, "%d", data);
 
@@ -231,7 +232,7 @@ void ListNode::draw_text(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y)
 	layout->show_in_cairo_context(cr);
 }
 
-void ListNode::draw_node(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y) {
+void ListNode::draw_node() {
 	cr->rectangle(x, y, field_w, field_h * numFields);
 	cr->fill();
 

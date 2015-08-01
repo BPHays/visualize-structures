@@ -25,8 +25,11 @@ class List : Gtk::Widget, public Structure {
 		List();
 		~List();
 		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
-		void newNode(ListNode * node);
-		void removeFromArray(ListNode * node);
+		// keep track of the nodes that are associated with the list
+		//void newNode(ListNode * node);
+		//void removeFromArray(ListNode * node);
+		void startTrackNode(ListNode * node);
+		void stopTrackNode(ListNode * node);
 	private:
 		virtual void arrange_nodes();
 		virtual void draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * node);
@@ -57,16 +60,22 @@ class ListNode : public Gtk::Widget {
 		ListNode(List * list, int data);
 		ListNode(List * list, int x, int y);
 		~ListNode();
+		/*
+		 * in node.h
 		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void draw_text(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y);
 		virtual void draw_node(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y);
+		*/
 
 	public:
 		ListNode * next;
 		int data;
+		/*
+		 * in node.h
 		bool printed;
 		int x;
 		int y;
+		*/
 		static const int padding;
 	protected:
 		int numFields;
