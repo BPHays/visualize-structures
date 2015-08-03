@@ -3,6 +3,8 @@
 #ifndef STRUCTURE_H
 #define STRUCTURE_H
 
+#include <cairomm/context.h>
+
 class Structure {
 	// methods
 	public:

@@ -6,10 +6,10 @@
 const int List::nodes_size = 100;
 
 List::List() {
-	list_x = 50;
-	list_y = 50;
-	out_x = list_x;
-	out_y = list_y + 100;
+	x = 50;
+	y = 50;
+	out_x = x;
+	out_y = y + 100;
 	head = NULL;
 	nodes = new Node*[nodes_size];
 	currentNodes = 0;
@@ -18,6 +18,7 @@ List::List() {
 List::~List() {
 }
 
+/*
 void List::startTrackNode(Node * node) {
 	nodes[currentNodes++] = node;
 }
@@ -33,6 +34,8 @@ void List::stopTrackNode(Node * node) {
 	}
 	currentNodes--;
 }
+
+*/
 
 void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	this->cr = cr;
@@ -58,8 +61,8 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 // horizontal line
 void List::arrange_nodes() {
 	ListNode * n = head;
-	int xTmp = list_x;
-	int yTmp = list_y;
+	int xTmp = x;
+	int yTmp = y;
 	while (n != NULL) {
 		xTmp += ListNode::padding;
 		n->x = xTmp;
@@ -69,16 +72,18 @@ void List::arrange_nodes() {
 }
 
 // draw the arrows from a specific node
-void List::draw_arrows(ListNode * node) {
-	if (node->next != NULL) {
-		draw_arrow_helper(node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h, FORWARD);
+void List::draw_connections(Node * node) {
+	ListNode * lNode = dynamic_cast <ListNode *> (node);
+	if (lNode->next != NULL) {
+		draw_connection_helper(lNode->x + ListNode::field_w - 10, lNode->y + (3 * ListNode::field_h) / 2, lNode->next->x - 10, lNode->next->y + ListNode::field_h, FORWARD);
 	} else  {
-		draw_null_arrow(node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
+		draw_null_arrow(lNode->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
 	}
 
 }
 
-void List::draw_arrow_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType type) {
+/*
+void List::draw_connection_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType type) {
 
 	double m = (end_y - start_y) / (double ) (end_x - start_x);	
 	double theta = atan(m);
@@ -100,6 +105,7 @@ void List::draw_arrow_helper(int start_x, int start_y, int end_x, int end_y, Gra
 
 	cr->stroke();
 }
+*/
 
 void List::draw_null_arrow(int start_x, int start_y, bool right) {
 	int dir = right ? 1 : -1;
@@ -126,10 +132,10 @@ void List::draw_null_arrow(int start_x, int start_y, bool right) {
 
 // draw labels and connect them to the structure with arrows
 void List::draw_labels() {
-	draw_label_helper(head, "head", list_x, list_y, RIGHT);
+	draw_label_helper(head, "head", x, y, RIGHT);
 }
 
-void List::draw_label_helper(ListNode * label, const char * text, int x, int y, LabelArrowPos arrowPos) {
+void List::draw_label_helper(Node * label, const char * text, int x, int y, LabelArrowPos arrowPos) {
 	cr->set_source_rgb(0.0, 0.0, 0.0);
 	Pango::FontDescription font;
 	font.set_family("Monospace");
@@ -142,9 +148,9 @@ void List::draw_label_helper(ListNode * label, const char * text, int x, int y, 
 	layout->show_in_cairo_context(cr);
 	if (label != NULL) {
 		if (arrowPos == RIGHT) {
-		draw_arrow_helper(x + text_w + 10, y + text_h / 2, label->x - 10, label->y + ListNode::field_h, FORWARD);
+		draw_connection_helper(x + text_w + 10, y + text_h / 2, label->x - 10, label->y + ListNode::field_h, FORWARD);
 		} else {
-		draw_arrow_helper(x - 10, y + text_h / 2, label->x + ListNode::field_w + 10, label->y + ListNode::field_h, FORWARD);
+		draw_connection_helper(x - 10, y + text_h / 2, label->x + ListNode::field_w + 10, label->y + ListNode::field_h, FORWARD);
 		}
 	} else {
 		if (arrowPos == RIGHT) {
@@ -161,7 +167,7 @@ void List::draw_connected() {
 	while (n != NULL) {
 		n->draw(cr);
 		n->printed = true;
-		draw_arrows(n);
+		draw_connections(n);
 		n = n->next;
 	}
 }
@@ -175,7 +181,7 @@ void List::draw_disconnected() {
 			nodes[i]->y = yTmp;
 			nodes[i]->x = xTmp;
 			nodes[i]->draw(cr);
-			draw_arrows(dynamic_cast <ListNode *> (nodes[i]));
+			draw_connections(dynamic_cast <ListNode *> (nodes[i]));
 			xTmp += 2 * ListNode::padding;
 		}
 	}

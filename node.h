@@ -1,6 +1,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <gtkmm/drawingarea.h>
+#include <cairomm/context.h>
+
 class Node : public Gtk::Widget {
 	// methods
 	public:

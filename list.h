@@ -3,7 +3,6 @@
 #define LIST_H
 
 #include <gtkmm/drawingarea.h>
-#include "structure.h"
 #include "node.h"
 #include "graph.h"
 
@@ -15,6 +14,7 @@ class ListNode;
 class List : public Graph {
 // Gtk::Widget, public Structure {
 
+	/*
 	public:
 		enum LabelArrowPos {
 			TOP,
@@ -22,6 +22,7 @@ class List : public Graph {
 			RIGHT,
 			LEFT
 		};
+		*/
 
 	public:
 		List();
@@ -30,28 +31,30 @@ class List : public Graph {
 		// keep track of the nodes that are associated with the list
 		//void newNode(ListNode * node);
 		//void removeFromArray(ListNode * node);
+		/*
 		virtual void startTrackNode(Node * node);
 		virtual void stopTrackNode(Node * node);
+		*/
 	protected:
 		virtual void arrange_nodes();
 		// TODO update to use draw connections
-		virtual void draw_arrows(ListNode * node);
-		virtual void draw_arrow_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType);
+		virtual void draw_connections(Node * node);
+//		virtual void draw_connection_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType);
 		virtual void draw_null_arrow(int start_x, int start_y, bool right);
 		virtual void draw_connected();
 		virtual void draw_disconnected();
 		virtual void draw_labels();
-		virtual void draw_label_helper(ListNode * label, const char * text, int x, int y, LabelArrowPos labelPos);
+		virtual void draw_label_helper(Node * label, const char * text, int x, int y, LabelArrowPos labelPos);
 
 	public:
 		ListNode * head;
 	protected:
-		int list_x;
-		int list_y;
+//		int list_x;
+//		int list_y;
 		int out_x;
 		int out_y;
-		Node ** nodes;
-		int currentNodes;
+//		Node ** nodes;
+//		int currentNodes;
 		static const int nodes_size;
 };
 

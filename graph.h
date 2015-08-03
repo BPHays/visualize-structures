@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include "structure.h"
+#include "node.h"
 #include <gtkmm/drawingarea.h>
 
 class Graph : public Gtk::Widget, public Structure {
@@ -16,6 +17,13 @@ class Graph : public Gtk::Widget, public Structure {
 			NEITHER
 		};
 
+		enum LabelArrowPos {
+			TOP,
+			BOTTOM,
+			RIGHT,
+			LEFT
+		};
+
 	// methods
 	public:
 		//Graph();
@@ -25,11 +33,11 @@ class Graph : public Gtk::Widget, public Structure {
 
 		// track all of the new nodes that are added
 		// TODO rename as "startTrackNode"?
-		virtual void startTrackNode(Node * node)=0;
+		virtual void startTrackNode(Node * node);
 
 		// stop tracking the node when you delete it
 		// TODO rename as "stopTrackNode"?
-		virtual void stopTrackNode(Node * node)=0;
+		virtual void stopTrackNode(Node * node);
 
 		// draw the nodes which are "connected" to the data structure
 		// i.e .nodes in the linked list
@@ -41,9 +49,11 @@ class Graph : public Gtk::Widget, public Structure {
 
 		// draw labels on nodes
 		virtual void draw_labels()=0;
+		virtual void draw_label_helper(Node * label, const char * text, int x, int y, LabelArrowPos labelPos)=0;
 
 		// add connections between the nodes on the graph
-//		virtual void draw_connections(const Cairo::RefPtr<Cairo::Context> & cr, ConnType type)=0;
+		virtual void draw_connections(Node * node)=0;
+		virtual void draw_connection_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType);
 
 	// memeber variables
 	public:
