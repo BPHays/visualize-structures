@@ -11,7 +11,9 @@ List::List() {
 	out_x = x;
 	out_y = y + 100;
 	head = NULL;
-	nodes = new Node*[nodes_size];
+//	nodes = new Node*[nodes_size];
+	nodes = new std::set<Node *>;
+	labels = new std::set<Node *>;
 	currentNodes = 0;
 }
 
@@ -43,8 +45,14 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	arrange_nodes();
 
 	// mark the array as unprinted
+	/*
 	for (int i = 0; i < currentNodes; i++) {
 		nodes[i]->printed = false;
+	}
+	*/
+	std::set<Node *>::iterator it;
+	for (it = nodes->begin(); it != nodes->end(); ++it) {
+		(*it)->printed = false;
 	}
 
 	// print the head of the list
@@ -133,6 +141,10 @@ void List::draw_null_arrow(int start_x, int start_y, bool right) {
 // draw labels and connect them to the structure with arrows
 void List::draw_labels() {
 	draw_label_helper(head, "head", x, y, RIGHT);
+	std::set<Node *>::iterator it;
+	for (it = labels->begin(); it != labels->end(); ++it) {
+		draw_label_helper(*it, "l", x, y + 50, RIGHT);
+	}
 }
 
 void List::draw_label_helper(Node * label, const char * text, int x, int y, LabelArrowPos arrowPos) {
@@ -176,12 +188,25 @@ void List::draw_connected() {
 void List::draw_disconnected() {
 	int xTmp = out_x;
 	int yTmp = out_y;
+	/*
 	for (int i = 0; i < currentNodes; i++) {
 		if (!nodes[i]->printed) {
 			nodes[i]->y = yTmp;
 			nodes[i]->x = xTmp;
 			nodes[i]->draw(cr);
 			draw_connections(dynamic_cast <ListNode *> (nodes[i]));
+			xTmp += 2 * ListNode::padding;
+		}
+	}
+	*/
+	std::set<Node *>::iterator it;
+	for (it = nodes->begin(); it != nodes->end(); ++it) {
+		if (!(*it)->printed) {
+			(*it)->y = yTmp;
+			(*it)->x = xTmp;
+			(*it)->draw(cr);
+			//draw_connections(dynamic_cast <ListNode *> (*it));
+			draw_connections(*it);
 			xTmp += 2 * ListNode::padding;
 		}
 	}

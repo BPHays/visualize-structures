@@ -44,6 +44,7 @@ void DList::draw_connected() {
 	}
 }
 
+/*
 void DList::draw_disconnected() {
 	int xTmp = out_x;
 	int yTmp = out_y;
@@ -57,13 +58,13 @@ void DList::draw_disconnected() {
 		}
 	}
 }
+*/
 
 void DList::draw_connections(DListNode * node) {
 	// add the previous arrow
 	if (node->prev != NULL) {
 		draw_connection_helper(node->x + ARROW_OFFSET, node->y + (5 * ListNode::field_h) / 2, node->prev->x + ARROW_OFFSET + ListNode::field_w, node->prev->y + (5 * ListNode::field_h) / 2, FORWARD);
 	} else {
-		std::cout << "test" << std::endl;
 		draw_null_arrow(node->x + ARROW_OFFSET, node->y + (5 * ListNode::field_h) / 2, false);
 	}
 

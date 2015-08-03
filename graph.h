@@ -4,6 +4,7 @@
 #include "structure.h"
 #include "node.h"
 #include <gtkmm/drawingarea.h>
+#include <set>
 
 class Graph : public Gtk::Widget, public Structure {
 
@@ -32,12 +33,14 @@ class Graph : public Gtk::Widget, public Structure {
 		//virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr)=0;
 
 		// track all of the new nodes that are added
-		// TODO rename as "startTrackNode"?
 		virtual void startTrackNode(Node * node);
 
 		// stop tracking the node when you delete it
-		// TODO rename as "stopTrackNode"?
 		virtual void stopTrackNode(Node * node);
+
+		// track pointers to have them drawn
+		virtual void startTrackLabel(Node * label);
+		virtual void stopTrackLabel(Node * label);
 
 		// draw the nodes which are "connected" to the data structure
 		// i.e .nodes in the linked list
@@ -58,14 +61,14 @@ class Graph : public Gtk::Widget, public Structure {
 	// memeber variables
 	public:
 		// the list of nodes associated with the grah
-		Node ** nodes;
+		//Node ** nodes;
+		std::set<Node *> * nodes;
 		// the current number of nodes associated with the graph
 		int currentNodes;
 		// the list of labels that the user wants to print
-		Node ** labels;
+		//Node ** labels;
+		std::set<Node *> * labels;
 		// the starting point for the graph
-		int x;
-		int y;
 };
 
 #endif // GRAPH_H

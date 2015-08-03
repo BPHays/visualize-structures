@@ -8,10 +8,12 @@
 //}
 
 void Graph::startTrackNode(Node * node) {
-	nodes[currentNodes++] = node;
+	//nodes[currentNodes++] = node;
+	nodes->insert(node);
 }
 
 void Graph::stopTrackNode(Node * node) {
+	/*
 	for (int i = 0; i < currentNodes; i++) {
 		if (nodes[i] == node) {
 			for (int j = i; j < currentNodes - 1; j++) {
@@ -21,6 +23,16 @@ void Graph::stopTrackNode(Node * node) {
 		}
 	}
 	currentNodes--;
+	*/
+	nodes->erase(node);
+}
+
+void Graph::startTrackLabel(Node * label) {
+	labels->insert(label);
+}
+
+void Graph::stopTrackLabel(Node * label) {
+	labels->erase(label);
 }
 
 void Graph::draw_connection_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType type) {

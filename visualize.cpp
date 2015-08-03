@@ -14,7 +14,7 @@ Visualize::~Visualize() {
 }
 
 void Visualize::run() {
-/*
+	/*
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
 	update();
@@ -46,6 +46,7 @@ void Visualize::run() {
 	update("delet node4");
 
 	ListNode * node5 = new ListNode(list, 5);
+	list->startTrackLabel(node5);
 
 	update("add node5");
 
@@ -54,6 +55,7 @@ void Visualize::run() {
 	update("connect to next node");
 
 	node1->next = node5;
+	list->startTrackLabel(node1);
 
 	update("connect from previous");
 

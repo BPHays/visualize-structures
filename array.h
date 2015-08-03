@@ -17,8 +17,6 @@ class Array : Gtk::Widget, public Structure {
 		int n;
 	private:
 		bool horizontal;
-		int x;
-		int y;
 		static const int field_w;
 		static const int field_h;
 		static const int init_size;

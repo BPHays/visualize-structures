@@ -17,7 +17,7 @@ class DList : public List {
 		virtual void arrange_nodes();
 		virtual void draw_connections(DListNode * node);
 		virtual void draw_connected();
-		virtual void draw_disconnected();
+//		virtual void draw_disconnected();
 		virtual void draw_labels();
 
 	public:

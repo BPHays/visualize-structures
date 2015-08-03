@@ -16,6 +16,8 @@ class Structure {
 	public:
 		// used for all drawing operations
 		Cairo::RefPtr<Cairo::Context> cr;
+		int x;
+		int y;
 };
 
 #endif // STRUCTURE_H
