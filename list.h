@@ -4,14 +4,16 @@
 
 #include <gtkmm/drawingarea.h>
 #include "structure.h"
+#include "node.h"
+#include "graph.h"
 
 class ListNode;
 
 /*
  * A list which automatically tracks created nodes
  */
-class List : Gtk::Widget, public Structure {
-	friend class DList;
+class List : public Graph {
+// Gtk::Widget, public Structure {
 
 	public:
 		enum LabelArrowPos {
@@ -28,31 +30,32 @@ class List : Gtk::Widget, public Structure {
 		// keep track of the nodes that are associated with the list
 		//void newNode(ListNode * node);
 		//void removeFromArray(ListNode * node);
-		void startTrackNode(ListNode * node);
-		void stopTrackNode(ListNode * node);
-	private:
+		virtual void startTrackNode(Node * node);
+		virtual void stopTrackNode(Node * node);
+	protected:
 		virtual void arrange_nodes();
-		virtual void draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * node);
-		virtual void draw_arrow_helper(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y);
-		virtual void draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, bool right);
-		virtual void draw_connected(const Cairo::RefPtr<Cairo::Context> & cr);
-		virtual void draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr);
-		virtual void draw_labels(const Cairo::RefPtr<Cairo::Context> & cr);
-		virtual void draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y, LabelArrowPos labelPos);
+		// TODO update to use draw connections
+		virtual void draw_arrows(ListNode * node);
+		virtual void draw_arrow_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType);
+		virtual void draw_null_arrow(int start_x, int start_y, bool right);
+		virtual void draw_connected();
+		virtual void draw_disconnected();
+		virtual void draw_labels();
+		virtual void draw_label_helper(ListNode * label, const char * text, int x, int y, LabelArrowPos labelPos);
 
 	public:
 		ListNode * head;
-	private:
+	protected:
 		int list_x;
 		int list_y;
 		int out_x;
 		int out_y;
-		ListNode ** nodes;
+		Node ** nodes;
 		int currentNodes;
 		static const int nodes_size;
 };
 
-class ListNode : public Gtk::Widget {
+class ListNode : public Node {
 	friend class List;
 	public:
 		ListNode();
@@ -60,9 +63,10 @@ class ListNode : public Gtk::Widget {
 		ListNode(List * list, int data);
 		ListNode(List * list, int x, int y);
 		~ListNode();
-		/*
-		 * in node.h
 		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
+		virtual void draw_text();
+		virtual void draw_node();
+		/*
 		virtual void draw_text(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y);
 		virtual void draw_node(const Cairo::RefPtr<Cairo::Context> & cr, int x, int y);
 		*/
@@ -70,8 +74,7 @@ class ListNode : public Gtk::Widget {
 	public:
 		ListNode * next;
 		int data;
-		/*
-		 * in node.h
+		/* part of node.h
 		bool printed;
 		int x;
 		int y;
@@ -81,6 +84,9 @@ class ListNode : public Gtk::Widget {
 		int numFields;
 		static const int field_w;
 		static const int field_h;
+		/* part of node.h
+		Cairo::RefPtr<Cairo::Context> cr;
+		*/
 		List * list;
 };
 

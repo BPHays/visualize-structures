@@ -15,6 +15,7 @@ class Visualize : public Gtk::DrawingArea {
 	protected:
 		virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void update();
+		virtual void update(const char * msg);
 };
 
 /*

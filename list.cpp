@@ -3,7 +3,6 @@
 #include <cairomm/context.h>
 #include <iostream>
 
-
 const int List::nodes_size = 100;
 
 List::List() {
@@ -12,18 +11,18 @@ List::List() {
 	out_x = list_x;
 	out_y = list_y + 100;
 	head = NULL;
-	nodes = new ListNode*[nodes_size];
+	nodes = new Node*[nodes_size];
 	currentNodes = 0;
 }
 
 List::~List() {
 }
 
-void List::startTrackNode(ListNode * node) {
+void List::startTrackNode(Node * node) {
 	nodes[currentNodes++] = node;
 }
 
-void List::stopTrackNode(ListNode * node) {
+void List::stopTrackNode(Node * node) {
 	for (int i = 0; i < currentNodes; i++) {
 		if (nodes[i] == node) {
 			for (int j = i; j < currentNodes - 1; j++) {
@@ -36,6 +35,7 @@ void List::stopTrackNode(ListNode * node) {
 }
 
 void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
+	this->cr = cr;
 	// update the positions of the list
 	arrange_nodes();
 
@@ -45,13 +45,13 @@ void List::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	}
 
 	// print the head of the list
-	draw_labels(cr);
+	draw_labels();
 
 	//  print the nodes in the list
-	draw_connected(cr);
+	draw_connected();
 
 	// print nodes disconnected from the list
-	draw_disconnected(cr);
+	draw_disconnected();
 }
 
 // place the nodes that are part of the list in a single 
@@ -69,17 +69,16 @@ void List::arrange_nodes() {
 }
 
 // draw the arrows from a specific node
-void List::draw_arrows(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * node) {
-	std::cout << "other test" << std::endl;
+void List::draw_arrows(ListNode * node) {
 	if (node->next != NULL) {
-		draw_arrow_helper(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h);
+		draw_arrow_helper(node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, node->next->x - 10, node->next->y + ListNode::field_h, FORWARD);
 	} else  {
-		draw_null_arrow(cr, node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
+		draw_null_arrow(node->x + ListNode::field_w - 10, node->y + (3 * ListNode::field_h) / 2, true);
 	}
 
 }
 
-void List::draw_arrow_helper(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, int end_x, int end_y) {
+void List::draw_arrow_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType type) {
 
 	double m = (end_y - start_y) / (double ) (end_x - start_x);	
 	double theta = atan(m);
@@ -102,7 +101,7 @@ void List::draw_arrow_helper(const Cairo::RefPtr<Cairo::Context> & cr, int start
 	cr->stroke();
 }
 
-void List::draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x, int start_y, bool right) {
+void List::draw_null_arrow(int start_x, int start_y, bool right) {
 	int dir = right ? 1 : -1;
 	// draw the body of the arrow
 	cr->set_line_width(2.0);
@@ -126,11 +125,11 @@ void List::draw_null_arrow(const Cairo::RefPtr<Cairo::Context> & cr, int start_x
 }
 
 // draw labels and connect them to the structure with arrows
-void List::draw_labels(const Cairo::RefPtr<Cairo::Context> & cr) {
-	draw_label_helper(cr, head, "head", list_x, list_y, RIGHT);
+void List::draw_labels() {
+	draw_label_helper(head, "head", list_x, list_y, RIGHT);
 }
 
-void List::draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode * label, const char * text, int x, int y, LabelArrowPos arrowPos) {
+void List::draw_label_helper(ListNode * label, const char * text, int x, int y, LabelArrowPos arrowPos) {
 	cr->set_source_rgb(0.0, 0.0, 0.0);
 	Pango::FontDescription font;
 	font.set_family("Monospace");
@@ -143,40 +142,40 @@ void List::draw_label_helper(const Cairo::RefPtr<Cairo::Context> & cr, ListNode 
 	layout->show_in_cairo_context(cr);
 	if (label != NULL) {
 		if (arrowPos == RIGHT) {
-		draw_arrow_helper(cr, x + text_w + 10, y + text_h / 2, label->x - 10, label->y + ListNode::field_h);
+		draw_arrow_helper(x + text_w + 10, y + text_h / 2, label->x - 10, label->y + ListNode::field_h, FORWARD);
 		} else {
-		draw_arrow_helper(cr, x - 10, y + text_h / 2, label->x + ListNode::field_w + 10, label->y + ListNode::field_h);
+		draw_arrow_helper(x - 10, y + text_h / 2, label->x + ListNode::field_w + 10, label->y + ListNode::field_h, FORWARD);
 		}
 	} else {
 		if (arrowPos == RIGHT) {
-			draw_null_arrow(cr, x + text_w + 10, y + text_h / 2, true);
+			draw_null_arrow(x + text_w + 10, y + text_h / 2, true);
 		} else {
-			draw_null_arrow(cr, x - 10, y + text_h / 2, false);
+			draw_null_arrow(x - 10, y + text_h / 2, false);
 		}
 	}
 }
 
 // draw nodes which are fully attached to the list
-void List::draw_connected(const Cairo::RefPtr<Cairo::Context> & cr) {
+void List::draw_connected() {
 		ListNode * n = head;
 	while (n != NULL) {
 		n->draw(cr);
 		n->printed = true;
-		draw_arrows(cr, n);
+		draw_arrows(n);
 		n = n->next;
 	}
 }
 
 // draw nodes which may point to the list but are no fully attached to it
-void List::draw_disconnected(const Cairo::RefPtr<Cairo::Context> & cr) {
+void List::draw_disconnected() {
 	int xTmp = out_x;
 	int yTmp = out_y;
 	for (int i = 0; i < currentNodes; i++) {
 		if (!nodes[i]->printed) {
 			nodes[i]->y = yTmp;
 			nodes[i]->x = xTmp;
-			nodes[i]->draw(cr);		
-			draw_arrows(cr, nodes[i]);
+			nodes[i]->draw(cr);
+			draw_arrows(dynamic_cast <ListNode *> (nodes[i]));
 			xTmp += 2 * ListNode::padding;
 		}
 	}
@@ -193,7 +192,7 @@ ListNode::ListNode(List * list) {
 	this->next = NULL;
 	this->printed = false;
 	this->list = list;
-	list->newNode(this);
+	list->startTrackNode(this);
 }
 
 ListNode::ListNode(List * list, int data) {

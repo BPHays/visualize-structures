@@ -7,13 +7,13 @@ class Structure {
 	// methods
 	public:
 		// draw the structure
-		//virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr)=0;
-		virtual void draw()=0;
+		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr)=0;
+		//virtual void draw()=0;
 
 	// member variables
 	public:
 		// used for all drawing operations
-		const Cairo::RefPtr<Cairo::Context> * cr;
+		Cairo::RefPtr<Cairo::Context> cr;
 };
 
 #endif // STRUCTURE_H

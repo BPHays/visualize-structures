@@ -12,7 +12,7 @@ main.o: main.cpp
 list.o: list.cpp list.h
 	g++ -g -c list.cpp `pkg-config --cflags --libs gtkmm-3.0`
 
-dlist.o: dlist.cpp dlist.h
+dlist.o: dlist.cpp dlist.h list.o
 	g++ -g -c dlist.cpp `pkg-config --cflags --libs gtkmm-3.0`
 
 array.o: array.cpp array.h

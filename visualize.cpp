@@ -26,7 +26,6 @@ void Visualize::run() {
 	update();
 	*/
 
-/*
 	s = new List();
 	List * list = dynamic_cast <List *> (s);
 	ListNode * node = new ListNode(list, 0);
@@ -44,33 +43,33 @@ void Visualize::run() {
 
 	delete node4;
 
-	update();
+	update("delet node4");
 
 	ListNode * node5 = new ListNode(list, 5);
 
-	update();
+	update("add node5");
 
 	node5->next = node2;
 
-	update();
+	update("connect to next node");
 
 	node1->next = node5;
 
-	update();
+	update("connect from previous");
 
 	node->next = node5;
 
-	update();
+	update("remove node1");
 
 	node1->next = NULL;
 
-	update();
+	update("set next to null");
 
 	delete node1;
 
-	update();
-	*/
+	update("remove node1");
 
+	/*
 	s = new DList();
 	DList * list = dynamic_cast <DList *> (s);
 	DListNode * node = new DListNode(list, 0);
@@ -108,6 +107,7 @@ void Visualize::run() {
 	node3->prev = node1;
 
 	update();
+	*/
 
 	/*
 	delete node4;
@@ -143,6 +143,12 @@ void Visualize::run() {
 void Visualize::update() {
 	this->queue_draw();
 	std::cout << "blocking" << std::endl;
+	getchar();
+}
+
+void Visualize::update(const char * msg) {
+	this->queue_draw();
+	std::cout << msg << std::endl;
 	getchar();
 }
 
