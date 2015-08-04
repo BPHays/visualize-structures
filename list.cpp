@@ -3,8 +3,6 @@
 #include <cairomm/context.h>
 #include <iostream>
 
-const int List::nodes_size = 100;
-
 List::List() {
 	x = 50;
 	y = 50;
@@ -141,9 +139,11 @@ void List::draw_null_arrow(int start_x, int start_y, bool right) {
 // draw labels and connect them to the structure with arrows
 void List::draw_labels() {
 	draw_label_helper(head, "head", x, y, RIGHT);
+	int xTmp = x;
 	std::set<Node *>::iterator it;
 	for (it = labels->begin(); it != labels->end(); ++it) {
-		draw_label_helper(*it, "l", x, y + 50, RIGHT);
+		draw_label_helper(*it, "l", xTmp, y - 50, RIGHT);
+		xTmp += 100;
 	}
 }
 

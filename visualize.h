@@ -5,6 +5,7 @@
 #include "list.h"
 #include "dlist.h"
 #include "array.h"
+#include "tree.h"
 
 class Visualize : public Gtk::DrawingArea {
 	public:

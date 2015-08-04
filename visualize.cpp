@@ -14,6 +14,30 @@ Visualize::~Visualize() {
 }
 
 void Visualize::run() {
+
+	s = new Tree();
+	Tree * t = dynamic_cast <Tree *> (s);
+	TreeNode * node = new TreeNode(t, 0);
+	t->root = node;
+	update("added root");
+	TreeNode * node1 = new TreeNode(t, 0);
+	node->right = node1;
+	update("added node");
+	TreeNode * node2 = new TreeNode(t, 0);
+	node1->right = node2;
+	update("added node");
+	TreeNode * node3 = new TreeNode(t, 0);
+	node->left = node3;
+	update("added node");
+	TreeNode * node4 = new TreeNode(t, 0);
+	node2->left = node4;
+	update("added node");
+	TreeNode * node5 = new TreeNode(t, 0);
+	node4->left = node5;
+	update("added node");
+	TreeNode * node6 = new TreeNode(t, 0);
+	node4->right = node6;
+	update("added node");
 	/*
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
@@ -26,6 +50,7 @@ void Visualize::run() {
 	update();
 	*/
 
+	/*
 	s = new List();
 	List * list = dynamic_cast <List *> (s);
 	ListNode * node = new ListNode(list, 0);
@@ -70,6 +95,7 @@ void Visualize::run() {
 	delete node1;
 
 	update("remove node1");
+	*/
 
 	/*
 	s = new DList();

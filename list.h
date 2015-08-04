@@ -55,7 +55,6 @@ class List : public Graph {
 		int out_y;
 //		Node ** nodes;
 //		int currentNodes;
-		static const int nodes_size;
 };
 
 class ListNode : public Node {
