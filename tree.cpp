@@ -61,7 +61,9 @@ void Tree::draw_connected() {
 	while (!s.empty()){
 		n = s.top();
 		s.pop();
+		draw_connections(n);
 		n->draw(cr);
+		n->printed = true;
 		if (n->left != NULL) s.push(n->left);
 		if (n->right != NULL) s.push(n->right);
 	}
@@ -81,6 +83,13 @@ int Tree::get_height() {
 }
 
 void Tree::draw_connections(Node * node) {
+	TreeNode * tNode = dynamic_cast <TreeNode *>  (node);
+	if (tNode->right) {
+		draw_connection_helper( tNode->x + TreeNode::w / 2, tNode->y + TreeNode::h / 2, tNode->right->x + TreeNode::w / 2, tNode->right->y + TreeNode::h / 2, NEITHER);
+	}
+	if (tNode->left) {
+		draw_connection_helper( tNode->x + TreeNode::w / 2, tNode->y + TreeNode::h / 2, tNode->left->x + TreeNode::w / 2, tNode->left->y + TreeNode::h / 2, NEITHER);
+	}
 }
 
 int Tree::get_height_helper(TreeNode * n) {
@@ -115,20 +124,41 @@ void TreeNode::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	this->cr = cr;
 	cr->set_source_rgb(1.0, 1.0, 1.0);
 	draw_node();
-	/*
 	cr->set_source_rgb(0.0, 0.0, 0.0);
 	draw_text();
-	*/
 }
 
 void TreeNode::draw_node() {
-	cr->rectangle(x, y, w, h);
+//	cr->rectangle(x, y, w, h);
+	cr->save();
+	cr->translate(x + w / 2, y + h / 2);
+	cr->scale(w / 2, h / 2);
+	cr->arc(0, 0, 1, 0, 2 * M_PI);
 	cr->fill();
+	cr->restore();
+	cr->save();
 
-	cr->set_source_rgb(0.0, 0.0, 0.0);
 	cr->set_line_width(2.0);
-	cr->rectangle(x, y , w, h);
+	cr->translate(x + w / 2, y + h / 2);
+	cr->scale(w / 2, h / 2);
+	cr->arc(0, 0, 1, 0, 2 * M_PI);
+	cr->restore();
+	cr->set_source_rgb(0.0, 0.0, 0.0);
 	cr->stroke();
 }
 void TreeNode::draw_text() {
+	cr->save();
+	char * str = new char[10];
+	sprintf(str, "%d", data);
+
+	Pango::FontDescription font;
+	font.set_family("Monospace");
+	font.set_weight(Pango::WEIGHT_BOLD);
+	Glib::RefPtr<Pango::Layout> layout = create_pango_layout(str);
+	layout->set_font_description(font);
+	int text_w, text_h;
+	layout->get_pixel_size(text_w, text_h);
+	cr->move_to(x + (w - text_w) / 2, y + (h - text_h) / 2);
+	layout->show_in_cairo_context(cr);
+	cr->restore();
 }

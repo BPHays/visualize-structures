@@ -175,7 +175,7 @@ void List::draw_label_helper(Node * label, const char * text, int x, int y, Labe
 
 // draw nodes which are fully attached to the list
 void List::draw_connected() {
-		ListNode * n = head;
+	ListNode * n = head;
 	while (n != NULL) {
 		n->draw(cr);
 		n->printed = true;

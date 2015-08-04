@@ -38,6 +38,7 @@ void Visualize::run() {
 	TreeNode * node6 = new TreeNode(t, 0);
 	node4->right = node6;
 	update("added node");
+
 	/*
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
