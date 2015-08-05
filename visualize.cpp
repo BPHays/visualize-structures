@@ -39,6 +39,9 @@ void Visualize::run() {
 	node4->right = node6;
 	update("added node");
 
+	TreeNode * node7 = new TreeNode(t, 1);
+	update("added disconn");
+
 	/*
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
@@ -170,9 +173,7 @@ void Visualize::run() {
 }
 
 void Visualize::update() {
-	this->queue_draw();
-	std::cout << "blocking" << std::endl;
-	getchar();
+	update("blocking");
 }
 
 void Visualize::update(const char * msg) {

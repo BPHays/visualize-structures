@@ -30,9 +30,9 @@ void Tree::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	}
 
 	// draw the nodes
-	//draw_labels();
+	draw_labels();
 	draw_connected();
-	//draw_disconnected();
+	draw_disconnected();
 }
 
 void Tree::arrange_nodes() {
@@ -70,16 +70,44 @@ void Tree::draw_connected() {
 }
 
 void Tree::draw_disconnected() {
+	int yTmp = y + h * (TreeNode::h + TreeNode::padding);
+	int xTmp = x;
+	std::set<Node *>::iterator it;
+	for (it = nodes->begin(); it != nodes->end(); ++it) {
+		if (!(*it)->printed) {
+			(*it)->y = yTmp;
+			(*it)->x = xTmp;
+			(*it)->draw(cr);
+			draw_connections(*it);
+			xTmp += 2 * ListNode::padding;
+		}
+	}
 }
 
 void Tree::draw_labels() {
+	// TODO update position to better fit the tree
+	draw_label_helper(root, "root", w / 2, y - 50, BOTTOM);
 }
 
 void Tree::draw_label_helper(Node * label, const char * text, int x, int y, LabelArrowPos labelPos) {
+	cr->set_source_rgb(0.0, 0.0, 0.0);
+	Pango::FontDescription font;
+	font.set_family("Monospace");
+	font.set_weight(Pango::WEIGHT_BOLD);
+	Glib::RefPtr<Pango::Layout> layout = create_pango_layout(text);
+	layout->set_font_description(font);
+	int text_w, text_h;
+	layout->get_pixel_size(text_w, text_h);
+	cr->move_to(x, y);
+	layout->show_in_cairo_context(cr);
+	if (label != NULL) {
+		draw_connection_helper(x + text_w / 2, y + text_h , label->x + TreeNode::w / 2, label->y + 10, NEITHER);
+	}
 }
 
 int Tree::get_height() {
-	return get_height_helper(root);
+	h = get_height_helper(root);
+	return h;
 }
 
 void Tree::draw_connections(Node * node) {
