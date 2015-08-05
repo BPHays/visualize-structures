@@ -15,6 +15,7 @@ Visualize::~Visualize() {
 
 void Visualize::run() {
 
+	/*
 	s = new Tree();
 	Tree * t = dynamic_cast <Tree *> (s);
 	TreeNode * node = new TreeNode(t, 0);
@@ -41,8 +42,8 @@ void Visualize::run() {
 
 	TreeNode * node7 = new TreeNode(t, 1);
 	update("added disconn");
+	*/
 
-	/*
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
 	update();
@@ -52,7 +53,6 @@ void Visualize::run() {
 	update();
 	a->array[a->n++] = 12;
 	update();
-	*/
 
 	/*
 	s = new List();
