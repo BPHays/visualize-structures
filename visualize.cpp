@@ -44,6 +44,40 @@ void Visualize::run() {
 	update("added disconn");
 	*/
 
+	s = new Heap(32);
+	Heap * h = dynamic_cast <Heap *> (s);
+	update();
+	h->array[h->n++] = 5;
+	update();
+	h->array[h->n++] = 7;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+	h->array[h->n++] = 12;
+	update();
+
+
+	/*
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
 	update();
@@ -53,6 +87,7 @@ void Visualize::run() {
 	update();
 	a->array[a->n++] = 12;
 	update();
+	*/
 
 	/*
 	s = new List();

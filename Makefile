@@ -2,8 +2,8 @@ GXX = g++ -g -std=c++11
 
 all: visualize
 
-visualize: visualize.o main.o graph.o list.o dlist.o array.o tree.o
-	$(GXX) -o visualize visualize.o main.o graph.o list.o dlist.o  tree.o array.o `pkg-config --cflags --libs gtkmm-3.0` -pthread
+visualize: visualize.o main.o graph.o list.o dlist.o array.o tree.o heap.o
+	$(GXX) -o visualize visualize.o main.o graph.o list.o dlist.o  tree.o array.o heap.o `pkg-config --cflags --libs gtkmm-3.0` -pthread
 
 visualize.o: visualize.cpp visualize.h
 	$(GXX) -c visualize.cpp `pkg-config --cflags --libs gtkmm-3.0`
@@ -25,6 +25,9 @@ tree.o: tree.cpp tree.h graph.o
 
 array.o: array.cpp array.h
 	$(GXX) -c array.cpp `pkg-config --cflags --libs gtkmm-3.0`
+
+heap.o: heap.cpp heap.h array.o
+	$(GXX) -c heap.cpp `pkg-config --cflags --libs gtkmm-3.0`
 
 clean:
 	rm *.o visualize

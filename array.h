@@ -5,7 +5,7 @@
 #include <cairomm/pattern.h>
 #include "structure.h"
 
-class Array : Gtk::Widget, public Structure {
+class Array : public Gtk::Widget, public Structure {
 	public:
 		Array();
 		Array(int size);

@@ -50,23 +50,10 @@ void Array::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	char * str = new char[10];
 	for (int i = 0; i < n && i < size; i++) {
 		// print the elements
-		//*coord += *increment
 		sprintf(str, "%d", array[i]);
 
-		/*
-		// print the background of the element
-		cr->set_source_rgb(1.0, 1.0, 1.0);
-		cr->rectangle(x_pos, y_pos, field_w, field_h);
-		cr->fill();
-
-		// print the outside of the element
-		cr->set_source_rgb(0.0, 0.0, 0.0);
-		cr->set_line_width(2.0);
-		cr->rectangle(x_pos, y_pos, field_w, field_h);
-		cr->stroke();
-		*/
+		// draw the structure of the field
 		draw_field(x_pos, y_pos, filled, border);
-
 		// print the value of the element
 		draw_element(str, font, x_pos, y_pos, text);
 
@@ -77,22 +64,9 @@ void Array::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 
 	for (i = n; i < size; i++) {
 		// print blank elemetns
-		//*coord += *increment
 
-		/*
-		// print the background of the element
-		cr->set_source_rgb(0.5, 0.5, 0.5);
-		cr->rectangle(x_pos, y_pos, field_w, field_h);
-		cr->fill();
-
-		// print the outside of the element
-		cr->set_source_rgb(0.0, 0.0, 0.0);
-		cr->set_line_width(2.0);
-		cr->rectangle(x_pos, y_pos, field_w, field_h);
-		cr->stroke();
-		*/
+		// draw the structure of the field
 		draw_field(x_pos, y_pos, empty, border);
-
 		// print the value of the element
 		draw_element("", font, x_pos, y_pos, text);
 
@@ -104,13 +78,11 @@ void Array::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 
 void Array::draw_field(int x_pos, int y_pos, Cairo::RefPtr<Cairo::Pattern> & bg, Cairo::RefPtr<Cairo::Pattern> & border) {
 	// print the background of the element
-	//cr->set_source_rgb(1.0, 1.0, 1.0);
 	cr->set_source(bg);
 	cr->rectangle(x_pos, y_pos, field_w, field_h);
 	cr->fill();
 
 	// print the outside of the element
-	//cr->set_source_rgb(0.0, 0.0, 0.0);
 	cr->set_source(border);
 	cr->set_line_width(2.0);
 	cr->rectangle(x_pos, y_pos, field_w, field_h);
@@ -124,6 +96,6 @@ void Array::draw_element(const char * data, Pango::FontDescription & font, int x
 	layout->set_font_description(font);
 	layout->get_pixel_size(text_w, text_h);
 	cr->set_source(text_patt);
-	cr->move_to(x_pos + (field_w - text_w) / 2, y + (field_h - text_h) / 2);
+	cr->move_to(x_pos + (field_w - text_w) / 2, y_pos + (field_h - text_h) / 2);
 	layout->show_in_cairo_context(cr);
 }
