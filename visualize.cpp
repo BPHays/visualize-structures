@@ -3,6 +3,7 @@
 #include <cairomm/context.h>
 #include <stdio.h>
 #include <iostream>
+#include <string.h>
 
 //List * list = new List();
 Structure * s = NULL;
@@ -13,71 +14,48 @@ Visualize::Visualize() {
 Visualize::~Visualize() {
 }
 
-void Visualize::run() {
+void Visualize::demo(const char * arg) {
+	if (!arg) {
+		std::cout << "Array" << std::endl;
+		demo_array();
+		std::cout << "Heap" << std::endl;
+		demo_heap();	
+		std::cout << "Linked List" << std::endl;
+		demo_list();
+		std::cout << "Double Linked List" << std::endl;
+		demo_dlist();
+		std::cout << "Tree" << std::endl;
+		demo_tree();
+	} else if (!strcmp(arg, "array")) {
+		std::cout << "Array" << std::endl;
+		demo_array();
+	} else if (!strcmp(arg, "heap")) {
+		std::cout << "Heap" << std::endl;
+		demo_heap();	
+	} else if (!strcmp(arg, "list")) {
+		std::cout << "Linked List" << std::endl;
+		demo_list();
+	} else if (!strcmp(arg, "dlist")) {
+		std::cout << "Double Linked List" << std::endl;
+		demo_dlist();
+	} else if (!strcmp(arg, "tree")) {
+		std::cout << "Tree" << std::endl;
+		demo_tree();
+	} else {
+		std::cout << "Array" << std::endl;
+		demo_array();
+		std::cout << "Heap" << std::endl;
+		demo_heap();	
+		std::cout << "Linked List" << std::endl;
+		demo_list();
+		std::cout << "Double Linked List" << std::endl;
+		demo_dlist();
+		std::cout << "Tree" << std::endl;
+		demo_tree();
+	}
+}
 
-	/*
-	s = new Tree();
-	Tree * t = dynamic_cast <Tree *> (s);
-	TreeNode * node = new TreeNode(t, 0);
-	t->root = node;
-	update("added root");
-	TreeNode * node1 = new TreeNode(t, 0);
-	node->right = node1;
-	update("added node");
-	TreeNode * node2 = new TreeNode(t, 0);
-	node1->right = node2;
-	update("added node");
-	TreeNode * node3 = new TreeNode(t, 0);
-	node->left = node3;
-	update("added node");
-	TreeNode * node4 = new TreeNode(t, 0);
-	node2->left = node4;
-	update("added node");
-	TreeNode * node5 = new TreeNode(t, 0);
-	node4->left = node5;
-	update("added node");
-	TreeNode * node6 = new TreeNode(t, 0);
-	node4->right = node6;
-	update("added node");
-
-	TreeNode * node7 = new TreeNode(t, 1);
-	update("added disconn");
-	*/
-
-	s = new Heap(32);
-	Heap * h = dynamic_cast <Heap *> (s);
-	update();
-	h->array[h->n++] = 5;
-	update();
-	h->array[h->n++] = 7;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-	h->array[h->n++] = 12;
-	update();
-
-
-	/*
+void Visualize::demo_array() {
 	s = new Array();
 	Array * a = dynamic_cast <Array *> (s);
 	update();
@@ -87,9 +65,62 @@ void Visualize::run() {
 	update();
 	a->array[a->n++] = 12;
 	update();
-	*/
+	s = NULL;
+}
 
-	/*
+void Visualize::demo_heap() {
+	s = new Heap(20);
+	Heap * h = dynamic_cast <Heap *> (s);
+	update();
+	h->insert(1);
+	update();
+	h->insert(5);
+	update();
+	h->insert(9);
+	update();
+	h->insert(7);
+	update();
+	h->insert(3);
+	update();
+	h->insert(12);
+	update();
+	h->insert(13);
+	update();
+	h->insert(9);
+	update();
+	h->insert(8);
+	update();
+	h->insert(5);
+	update();
+	h->insert(2);
+	update();
+	h->insert(8);
+	update();
+	h->insert(4);
+	update();
+	h->insert(20);
+	update();
+	h->insert(11);
+	update();
+	h->insert(6);
+	update();
+	h->insert(9);
+	update();
+	h->insert(3);
+	update();
+	h->insert(2);
+	update();
+	h->insert(1);
+	update();
+	int n;
+	while(h->removeMax(n)) {
+		std::cout << n << std::endl;
+		update();
+	}
+	s = NULL;
+}
+
+void Visualize::demo_list() {
 	s = new List();
 	List * list = dynamic_cast <List *> (s);
 	ListNode * node = new ListNode(list, 0);
@@ -134,9 +165,10 @@ void Visualize::run() {
 	delete node1;
 
 	update("remove node1");
-	*/
+	s = NULL;
+}
 
-	/*
+void Visualize::demo_dlist() {
 	s = new DList();
 	DList * list = dynamic_cast <DList *> (s);
 	DListNode * node = new DListNode(list, 0);
@@ -150,7 +182,6 @@ void Visualize::run() {
 	DListNode * node1 = new DListNode(list, 1);
 	DListNode * node2 = new DListNode(list, 2);
 	DListNode * node3 = new DListNode(list, 3);
-
 
 	node->next = node1;
 	node1->prev = node;
@@ -173,38 +204,42 @@ void Visualize::run() {
 	node1->next = node3;
 	node3->prev = node1;
 
-	update();
-	*/
+	s = NULL;
+}
 
-	/*
-	delete node4;
+void Visualize::demo_tree() {
+	s = new Tree();
+	Tree * t = dynamic_cast <Tree *> (s);
+	TreeNode * node = new TreeNode(t, 0);
+	t->root = node;
+	update("added root");
+	TreeNode * node1 = new TreeNode(t, 0);
+	node->right = node1;
+	update("added node");
+	TreeNode * node2 = new TreeNode(t, 0);
+	node1->right = node2;
+	update("added node");
+	TreeNode * node3 = new TreeNode(t, 0);
+	node->left = node3;
+	update("added node");
+	TreeNode * node4 = new TreeNode(t, 0);
+	node2->left = node4;
+	update("added node");
+	TreeNode * node5 = new TreeNode(t, 0);
+	node4->left = node5;
+	update("added node");
+	TreeNode * node6 = new TreeNode(t, 0);
+	node4->right = node6;
+	update("added node");
 
-	update();
+	TreeNode * node7 = new TreeNode(t, 1);
+	update("added disconn");
 
-	DListNode * node5 = new DListNode(list, 5);
+	s = NULL;
+}
 
-	update();
-
-	node5->next = node2;
-
-	update();
-
-	node1->next = node5;
-
-	update();
-
-	node->next = node5;
-
-	update();
-
-	node1->next = NULL;
-
-	update();
-
-	delete node1;
-
-	update();
-	*/
+void Visualize::run(const char * arg) {
+	demo(arg);
 }
 
 void Visualize::update() {

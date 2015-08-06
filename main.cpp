@@ -7,8 +7,8 @@
 #include <iostream>
 #include <gtkmm/adjustment.h>
 
-void start(Visualize * v) {
-	v->run();
+void start(Visualize * v, const char * arg) {
+	v->run(arg);
 	std::cout << "exiting" << std::endl;
 	return;
 }
@@ -27,7 +27,7 @@ int main(int argc, char ** argv) {
 	win.add(scroll);
 	win.show_all_children();
 
-	std::thread t1(start, &v);
+	std::thread t1(start, &v, argv[1]);
 	int res = app->run(win);
 	t1.join();
 

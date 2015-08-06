@@ -112,15 +112,15 @@ void Heap::draw_node(int x_pos, int y_pos, Cairo::RefPtr<Cairo::Pattern> & bg, C
 	cr->stroke();
 }
 
-inline int Heap::parent(int i) {
-	return (i - 1) / 2;
+inline int parent(int i) {
+	return (i + 1) / 2;
 }
 
-inline int Heap::right(int i) {
+inline int right(int i) {
 	return i * 2 + 2;
 }
 
-inline int Heap::left(int i) {
+inline int left(int i) {
 	return i * 2 + 1;
 }
 
@@ -140,7 +140,7 @@ void Heap::insert(int data) {
 	while (array[i] > array[parent(i)]) {
 		tmp = array[i];
 		array[i] = array[parent(i)];
-		array[parent(i)] = tmp;
+		array[parent(i)];
 		i = parent(i);
 	}
 
@@ -149,18 +149,11 @@ void Heap::insert(int data) {
 }
 
 bool Heap::removeMax(int & data) {
-	// check that the heap is not empty
-	if (n == 0) return false;
+	// swap the first and last elements
+	int tmp = array[n];
+	array[n] = array[0];
+	array[0] = tmp;
 
-	// store the first element and replace it with the last
-	int tmp;
-	data = array[0];
-	tmp = array[0];
-	array[0] = array[n - 1];
-	array[n - 1] = tmp;
-	n--;
-
-	// make sure the heap is valid
 	int i = 0;
 	int l = left(i);
 	int r = right(i);
@@ -184,9 +177,5 @@ bool Heap::removeMax(int & data) {
 
 		// iterate to the next element in the heap
 		i = maxChild;
-		l = left(i);
-		r = right(i);
 	}
-
-	return true;
 }
