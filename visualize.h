@@ -7,6 +7,7 @@
 #include "array.h"
 #include "tree.h"
 #include "heap.h"
+#include "graph.h"
 
 class Visualize : public Gtk::DrawingArea {
 	public:
@@ -21,6 +22,7 @@ class Visualize : public Gtk::DrawingArea {
 		void demo_list();
 		void demo_dlist();
 		void demo_tree();
+		void demo_graph();
 
 	protected:
 		virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> & cr);

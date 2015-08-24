@@ -1,29 +1,25 @@
 
-#include "graph.h"
+#include "visualize.h"
+#include <cairomm/context.h>
+#include <iostream>
 
-//Graph::Graph(){
-//}
+Graph::Graph(){
+	x = 50;
+	y = 50;
+	nodes = new std::set<Node *>;
+	labels = new std::set<Node *>;
+	directed = false;
+	aMatrix = new bool[100][100]();
+}
 
 //Graph::~Graph(){
 //}
 
 void Graph::startTrackNode(Node * node) {
-	//nodes[currentNodes++] = node;
 	nodes->insert(node);
 }
 
 void Graph::stopTrackNode(Node * node) {
-	/*
-	for (int i = 0; i < currentNodes; i++) {
-		if (nodes[i] == node) {
-			for (int j = i; j < currentNodes - 1; j++) {
-				nodes[j] = nodes[j + 1];
-			}
-			break;
-		}
-	}
-	currentNodes--;
-	*/
 	nodes->erase(node);
 }
 
@@ -33,6 +29,38 @@ void Graph::startTrackLabel(Node * label) {
 
 void Graph::stopTrackLabel(Node * label) {
 	labels->erase(label);
+}
+
+void Graph::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
+	this->cr = cr;
+
+	// set all nodes as not printed
+	std::set<Node *>::iterator it;
+	for (it = nodes->begin(); it != nodes->end(); ++it) {
+		(*it)->printed = false;
+	}
+
+	draw_connecte();
+}
+
+void Graph::draw_connected() {
+	std::set<Node *>::iterator it;
+	for (it = nodes->begin(); it != nodes->end(); ++it) {
+		if (!(*it)->printed) {
+			(*it)->draw(cr);
+		}
+	}
+}
+
+void Graph::draw_disconnected() {}
+
+void Graph::draw_labels() {}
+
+void Graph::draw_label_helper(Node * label, const char * text, int x, int y, Graph::LabelArrowPos labelPos){}
+
+void Graph::draw_connections(Node * node) {
+	// TODO add implementation to connect the nodes
+	// TODO make implementation handle the case where the graph is directed/indirected
 }
 
 void Graph::draw_connection_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType type) {
@@ -89,3 +117,46 @@ void Graph::draw_label_helper(Node * label, const char * text, int x, int y, Lab
 	}
 }
 */
+
+const int Vertex::r = 30;
+
+Vertex::Vertex(Graph * graph, int x, int y) {
+	this->x = x;
+	this->xVal = x;
+	this->y = y;
+	this->yVal = y;
+	this->graph = graph;
+	graph->startTrackNode(this);
+	this->printed = false;
+}
+
+void Vertex::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
+	this->cr = cr;
+	draw_node();
+	draw_text();
+}
+
+void Vertex::draw_node() {
+	cr->set_source_rgb(1.0, 1.0, 1.0);
+	cr->save();
+	cr->translate(x + r / 2, y + r / 2);
+	cr->scale(r / 2, r / 2);
+	cr->arc(0, 0, 1, 0, 2 * M_PI);
+	cr->fill();
+	cr->restore();
+	cr->save();
+
+	cr->set_source_rgb(0.0, 0.0, 0.0);
+	cr->set_line_width(2.0);
+	cr->translate(x + r / 2, y + r / 2);
+	cr->scale(r / 2, r / 2);
+	cr->arc(0, 0, 1, 0, 2 * M_PI);
+	cr->restore();
+	cr->set_source_rgb(0.0, 0.0, 0.0);
+	cr->stroke();
+}
+
+void Vertex::draw_text() {
+	//TODO add text implementation
+
+}
