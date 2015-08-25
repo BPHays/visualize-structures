@@ -60,16 +60,17 @@ void Visualize::demo_graph() {
 	s = new Graph();
 
 	Graph * g = dynamic_cast <Graph *> (s);
-	update();
 	Vertex * v1 = new Vertex(g, 50, 50);
-	update();
 	Vertex * v2 = new Vertex(g, 300, 50);
-	update();
 	Vertex * v3 = new Vertex(g, 300, 300);
-	update();
 	Vertex * v4 = new Vertex(g, 50, 300);
-	update();
 	Vertex * v5 = new Vertex(g, 175, 175);
+	update();
+	g->add_edge(0,1);
+	g->add_edge(0,3);
+	g->add_edge(3,4);
+	g->add_edge(4,1);
+	g->add_edge(4,2);
 	update();
 }
 

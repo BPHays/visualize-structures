@@ -62,6 +62,9 @@ class Graph : public Gtk::Widget, public Structure {
 		virtual void draw_connections(Node * node);
 		virtual void draw_connection_helper(int start_x, int start_y, int end_x, int end_y, Graph::ConnType);
 
+		// add an edge between two verticies
+		virtual void add_edge(int start, int stop);
+
 	// memeber variables
 	public:
 		// the list of nodes associated with the grah
@@ -75,6 +78,9 @@ class Graph : public Gtk::Widget, public Structure {
 		// the adjacency matrix of the graph
 		bool ** aMatrix;
 
+		// the array of vertecies
+		Vertex ** vertices;
+
 		// whether the graph is a directed or an indircted graph
 		bool directed;
 };
@@ -84,6 +90,7 @@ class Vertex : public Node {
 	// methods
 	public :
 		Vertex(Graph * graph, int x, int y);
+		Vertex();
 		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void draw_node();
 		virtual void draw_text();
@@ -93,6 +100,8 @@ class Vertex : public Node {
 		// the value of the position in the graph
 		int xVal;
 		int yVal;
+		// the position of the vertex in the adjacency list
+		int index;
 		// the adjacency list of the vertex
 		bool * aList;
 		// the graph the vertex belongs to 

@@ -9,7 +9,12 @@ Graph::Graph(){
 	nodes = new std::set<Node *>;
 	labels = new std::set<Node *>;
 	directed = false;
-	aMatrix = new bool[100][100]();
+	aMatrix = new bool*[100];
+	for (int i = 0; i < 100; i++) {
+		aMatrix[i] = new bool[100]();
+	}
+	vertices = new Vertex*[100];
+	currentNodes = 0;
 }
 
 //Graph::~Graph(){
@@ -31,6 +36,13 @@ void Graph::stopTrackLabel(Node * label) {
 	labels->erase(label);
 }
 
+void Graph::add_edge(int start, int stop) {
+	aMatrix[start][stop] = true;
+	if (!directed) {
+		aMatrix[stop][start] = true;
+	}
+}
+
 void Graph::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	this->cr = cr;
 
@@ -40,7 +52,21 @@ void Graph::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 		(*it)->printed = false;
 	}
 
-	draw_connecte();
+	// draw the connections between the nodes
+	Vertex * start;
+	Vertex * stop;
+	for (int i = 1; i < currentNodes; i++) {
+		for (int j = 0; j < i; j++) {
+			if (aMatrix[i][j]) {
+				start = vertices[i];
+				stop = vertices[j];
+				draw_connection_helper(start->x + Vertex::r / 2, start->y + Vertex::r / 2, stop->x + Vertex::r / 2, stop->y + Vertex::r / 2, NEITHER);
+			}
+		}
+	}
+
+	// draw the nodes in the graph
+	draw_connected();
 }
 
 void Graph::draw_connected() {
@@ -120,6 +146,8 @@ void Graph::draw_label_helper(Node * label, const char * text, int x, int y, Lab
 
 const int Vertex::r = 30;
 
+Vertex::Vertex(){}
+
 Vertex::Vertex(Graph * graph, int x, int y) {
 	this->x = x;
 	this->xVal = x;
@@ -128,6 +156,10 @@ Vertex::Vertex(Graph * graph, int x, int y) {
 	this->graph = graph;
 	graph->startTrackNode(this);
 	this->printed = false;
+	// store which node was just created and update the counter
+	this->aList = graph->aMatrix[graph->currentNodes];
+	graph->vertices[graph->currentNodes] = this;
+	this->index = graph->currentNodes++;
 }
 
 void Vertex::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
@@ -158,5 +190,4 @@ void Vertex::draw_node() {
 
 void Vertex::draw_text() {
 	//TODO add text implementation
-
 }
