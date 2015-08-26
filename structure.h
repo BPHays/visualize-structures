@@ -18,6 +18,8 @@ class Structure {
 		Cairo::RefPtr<Cairo::Context> cr;
 		int x;
 		int y;
+		int sWidth = 500;
+		int sHeight = 500;
 };
 
 #endif // STRUCTURE_H

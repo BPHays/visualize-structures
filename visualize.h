@@ -2,6 +2,7 @@
 #define VISUALIZE_H
 
 #include <gtkmm/drawingarea.h>
+#include <gdkmm/rectangle.h>
 #include "list.h"
 #include "dlist.h"
 #include "array.h"
@@ -28,6 +29,10 @@ class Visualize : public Gtk::DrawingArea {
 		virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> & cr);
 		virtual void update();
 		virtual void update(const char * msg);
+
+	private:
+		int width = 500;
+		int height = 500;
 };
 
 #endif
