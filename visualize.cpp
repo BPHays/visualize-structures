@@ -273,8 +273,7 @@ void Visualize::update(const char * msg) {
 
 bool Visualize::on_draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	Gtk::Allocation allocation = get_allocation();
-	auto r = Gdk::Rectangle(0, 0, width, height);
-	set_allocation(r);
+	set_size_request(s->sWidth, s->sHeight);
 	if (s != NULL) {
 		s->draw(cr);
 	}

@@ -39,6 +39,7 @@ void Tree::arrange_nodes() {
 	// the width of the base of the tree is 2^(h-1)
 	int baseNodes = (int) pow(2, get_height() - 1);
 	w = baseNodes * TreeNode::w + (baseNodes - 1) * TreeNode::padding;
+	sWidth = w;
 	arrange_nodes_helper(root, 1, 0, 1);
 }
 
@@ -107,6 +108,8 @@ void Tree::draw_label_helper(Node * label, const char * text, int x, int y, Labe
 
 int Tree::get_height() {
 	h = get_height_helper(root);
+	// TODO add more precise value here
+	sHeight = h * 100;
 	return h;
 }
 
