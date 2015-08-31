@@ -42,6 +42,9 @@ void Visualize::demo(const char * arg) {
 	} else if (!strcmp(arg, "tree")) {
 		std::cout << "Tree" << std::endl;
 		demo_tree();
+	} else if (!strcmp(arg, "stack")) {
+		std::cout << "Stack" << std::endl;
+		demo_stack();
 	} else {
 		std::cout << "Array" << std::endl;
 		demo_array();
@@ -85,6 +88,24 @@ void Visualize::demo_array() {
 	a->array[a->n++] = 12;
 	update();
 	s = NULL;
+}
+
+void Visualize::demo_stack() {
+	s = new Stack();
+	Stack * st = dynamic_cast <Stack *> (s);
+	update();
+	st->push(5);
+	update("push 5");
+	st->push(10);
+	update("push 10");
+	st->push(21);
+	update("push 21");
+	st->pop();
+	update("pop 21");
+	st->push(17);
+	update("push 17");
+	st->pop();
+	update("pop 17");
 }
 
 void Visualize::demo_heap() {

@@ -14,7 +14,16 @@ void start(Visualize * v, const char * arg) {
 }
 
 int main(int argc, char ** argv) {
-	Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv, "test");
+	char ** gtkArgv;
+	int gtkArgc;
+	if (argc > 1) {
+		gtkArgv = argv + 1; 
+		gtkArgc = argc - 1;
+	} else {
+		gtkArgv = argv;
+		gtkArgc = argc;
+	}
+	Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(gtkArgc, gtkArgv, "test");
 
 	Gtk::Window win;
 	win.set_title("Visualize");

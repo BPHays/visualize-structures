@@ -7,6 +7,7 @@
 class Node : public Gtk::Widget {
 	// methods
 	public:
+		Node();
 		// draw the node
 		virtual void draw(const Cairo::RefPtr<Cairo::Context> & cr)=0;
 		// draw the frame of the node
@@ -23,6 +24,12 @@ class Node : public Gtk::Widget {
 		// the position of the node
 		int x;
 		int y;
+	protected:
+		// the colors of the different parts of the node
+		Cairo::RefPtr<Cairo::Pattern> bg_color;
+		Cairo::RefPtr<Cairo::Pattern> outline_color;
+		Cairo::RefPtr<Cairo::Pattern> txt_color;
+
 };
 
 #endif // NODE_H

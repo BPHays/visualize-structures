@@ -153,14 +153,15 @@ TreeNode::TreeNode(Tree * tree, int data) {
 
 void TreeNode::draw(const Cairo::RefPtr<Cairo::Context> & cr) {
 	this->cr = cr;
-	cr->set_source_rgb(1.0, 1.0, 1.0);
+	//cr->set_source_rgb(1.0, 1.0, 1.0);
 	draw_node();
-	cr->set_source_rgb(0.0, 0.0, 0.0);
+	//cr->set_source_rgb(0.0, 0.0, 0.0);
 	draw_text();
 }
 
 void TreeNode::draw_node() {
 //	cr->rectangle(x, y, w, h);
+	cr->set_source(bg_color);
 	cr->save();
 	cr->translate(x + w / 2, y + h / 2);
 	cr->scale(w / 2, h / 2);
@@ -174,10 +175,11 @@ void TreeNode::draw_node() {
 	cr->scale(w / 2, h / 2);
 	cr->arc(0, 0, 1, 0, 2 * M_PI);
 	cr->restore();
-	cr->set_source_rgb(0.0, 0.0, 0.0);
+	cr->set_source(outline_color);
 	cr->stroke();
 }
 void TreeNode::draw_text() {
+	cr->set_source(txt_color);
 	cr->save();
 	char * str = new char[10];
 	sprintf(str, "%d", data);

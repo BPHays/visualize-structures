@@ -9,6 +9,8 @@
 #include "tree.h"
 #include "heap.h"
 #include "graph.h"
+#include "stack.h"
+#include "queue.h"
 
 class Visualize : public Gtk::DrawingArea {
 	public:
@@ -19,6 +21,7 @@ class Visualize : public Gtk::DrawingArea {
 		// demo methods
 		void demo(const char * arg);
 		void demo_array();
+		void demo_stack();
 		void demo_heap();
 		void demo_list();
 		void demo_dlist();
