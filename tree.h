@@ -29,7 +29,6 @@ class Tree : public Graph {
 	protected:
 		int w;
 		int h;
-
 };
 
 class TreeNode : public Node {

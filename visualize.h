@@ -11,6 +11,7 @@
 #include "graph.h"
 #include "stack.h"
 #include "queue.h"
+#include "rbtree.h"
 
 class Visualize : public Gtk::DrawingArea {
 	public:
@@ -26,6 +27,7 @@ class Visualize : public Gtk::DrawingArea {
 		void demo_list();
 		void demo_dlist();
 		void demo_tree();
+		void demo_rbtree();
 		void demo_graph();
 
 	protected:

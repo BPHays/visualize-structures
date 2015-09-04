@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string.h>
 
+#define MIN_H 500
+#define MIN_W 500
+
 //List * list = new List();
 Structure * s = NULL;
 
@@ -42,6 +45,9 @@ void Visualize::demo(const char * arg) {
 	} else if (!strcmp(arg, "tree")) {
 		std::cout << "Tree" << std::endl;
 		demo_tree();
+	} else if (!strcmp(arg, "rbtree")) {
+		std::cout << "Red-Black Tree" << std::endl;
+		demo_rbtree();
 	} else if (!strcmp(arg, "stack")) {
 		std::cout << "Stack" << std::endl;
 		demo_stack();
@@ -276,6 +282,29 @@ void Visualize::demo_tree() {
 	update("added disconn");
 
 	s = NULL;
+}
+
+void Visualize::demo_rbtree() {
+	s = new RBTree();
+	RBTree * t = static_cast <RBTree *> (s);
+	for (int i = 0; i < 20; i++) {
+		t->insert(i);
+		update();
+	}
+	/*
+	t->insert(1);
+	update("insert 1");
+	t->insert(2);
+	update("insert 2");
+	t->insert(3);
+	update("insert 3");
+	t->insert(4);
+	update("insert 4");
+	t->insert(5);
+	update("insert 5");
+	t->insert(6);
+	update("insert 6");
+	*/
 }
 
 void Visualize::run(const char * arg) {

@@ -114,6 +114,7 @@ int Tree::get_height() {
 }
 
 void Tree::draw_connections(Node * node) {
+	cr->set_source_rgb(0.0, 0.0, 0.0);
 	TreeNode * tNode = dynamic_cast <TreeNode *>  (node);
 	if (tNode->right) {
 		draw_connection_helper( tNode->x + TreeNode::w / 2, tNode->y + TreeNode::h / 2, tNode->right->x + TreeNode::w / 2, tNode->right->y + TreeNode::h / 2, NEITHER);
@@ -140,7 +141,7 @@ int Tree::get_height_helper(TreeNode * n) {
 
 const int TreeNode::w = 50;
 const int TreeNode::h = 30;
-const int TreeNode::padding = 50;
+const int TreeNode::padding = 5;
 
 TreeNode::TreeNode(Tree * tree, int data) {
 	left = NULL;

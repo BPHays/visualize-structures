@@ -34,6 +34,7 @@ int main(int argc, char ** argv) {
 	Visualize v;
 	scroll.add(v);
 	win.add(scroll);
+	win.set_default_size(500, 500);
 	win.show_all_children();
 
 	std::thread t1(start, &v, argv[1]);
